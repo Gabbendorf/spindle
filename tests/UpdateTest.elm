@@ -2,6 +2,7 @@ module UpdateTest exposing (..)
 
 import Expect
 import Test exposing (..)
+import TestData exposing (sampleBlogPosts)
 import Update exposing (..)
 
 
@@ -30,4 +31,5 @@ suite =
 model : Model
 model =
     { selectedApprentice = Nothing
+    , blogPosts = sampleBlogPosts
     }

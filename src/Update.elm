@@ -1,8 +1,11 @@
 module Update exposing (..)
 
+import Data.BlogPost exposing (BlogPost)
+
 
 type alias Model =
     { selectedApprentice : Maybe String
+    , blogPosts : List BlogPost
     }
 
 
