@@ -2,7 +2,7 @@ module UpdateTest exposing (..)
 
 import Expect
 import Test exposing (..)
-import TestData exposing (sampleBlogPosts)
+import TestData exposing (initialModel, sampleBlogPosts)
 import Update exposing (..)
 
 
@@ -14,22 +14,15 @@ suite =
                 \_ ->
                     let
                         nextModel =
-                            update (SelectApprentice "Gabi") model
+                            update (SelectApprentice "Gabi") initialModel
                     in
                     Expect.equal nextModel.selectedApprentice (Just "Gabi")
             , test "Clears selected apprentice" <|
                 \_ ->
                     let
                         nextModel =
-                            update ClearApprentice model
+                            update ClearApprentice initialModel
                     in
                     Expect.equal nextModel.selectedApprentice Nothing
             ]
         ]
-
-
-model : Model
-model =
-    { selectedApprentice = Nothing
-    , blogPosts = sampleBlogPosts
-    }
