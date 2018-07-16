@@ -2,9 +2,11 @@ module ViewTest exposing (..)
 
 import Expect
 import Test exposing (..)
+import Test.Html.Event as Event
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (class, tag, text)
 import TestData exposing (initialModel, post1, sampleBlogPosts)
+import Types exposing (..)
 import View exposing (..)
 
 
@@ -24,6 +26,13 @@ suite =
                         |> Query.fromHtml
                         |> Query.findAll [ tag "p" ]
                         |> Query.count (Expect.equal 3)
+            , test "It selects the correct apprentice on click" <|
+                \_ ->
+                    renderBlogPost post1
+                        |> Query.fromHtml
+                        |> Query.find [ class "apprentice-name" ]
+                        |> Event.simulate Event.click
+                        |> Event.expect (SelectApprentice post1.apprenticeName)
             ]
         , describe "renderBlogPosts"
             [ test "renders a list of blog posts" <|

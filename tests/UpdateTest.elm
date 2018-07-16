@@ -3,7 +3,8 @@ module UpdateTest exposing (..)
 import Expect
 import Test exposing (..)
 import TestData exposing (initialModel, sampleBlogPosts)
-import Update exposing (..)
+import Types exposing (..)
+import Update exposing (update)
 
 
 suite : Test

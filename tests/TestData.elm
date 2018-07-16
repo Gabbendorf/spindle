@@ -1,7 +1,7 @@
 module TestData exposing (..)
 
 import Data.BlogPost exposing (..)
-import Update exposing (Model)
+import Types exposing (Model)
 
 
 initialModel : Model
