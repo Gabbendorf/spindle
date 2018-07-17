@@ -18,14 +18,10 @@ renderBlogPosts blogPostList =
 
 
 renderBlogPost : BlogPost -> Html Msg
-renderBlogPost blogPost =
-    let
-        selectApprentice =
-            SelectApprentice blogPost.apprenticeName
-    in
+renderBlogPost { apprenticeName, title, date, content } =
     div [ class "blog-post" ]
-        [ h3 [] [ text blogPost.title ]
-        , p [ class "apprentice-name", onClick selectApprentice ] [ text blogPost.apprenticeName ]
-        , p [] [ text blogPost.date ]
-        , p [] [ text blogPost.content ]
+        [ h3 [] [ text title ]
+        , p [ class "apprentice-name", onClick (SelectApprentice apprenticeName) ] [ text apprenticeName ]
+        , p [] [ text date ]
+        , p [] [ text content ]
         ]
