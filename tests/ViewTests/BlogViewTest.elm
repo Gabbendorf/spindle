@@ -54,4 +54,12 @@ suite =
                         |> Query.findAll [ class "blog-post" ]
                         |> Query.count (Expect.equal 2)
             ]
+        , describe "renderContent"
+            [ test "it renders a visibility toggle button when content is not visible" <|
+                \_ ->
+                    renderBlogPostContent False post1
+                        |> Query.fromHtml
+                        |> Query.findAll [ tag "button" ]
+                        |> Query.count (Expect.equal 1)
+            ]
         ]

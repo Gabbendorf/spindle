@@ -7,6 +7,7 @@ import Types exposing (Model)
 initialModel : Model
 initialModel =
     { selectedAuthor = Nothing
+    , selectedBlogPost = Nothing
     , blogPosts = sampleBlogPosts
     , authorsVisible = False
     }
@@ -26,6 +27,7 @@ post1 =
     { author = "Gabi"
     , date = "21.07.18"
     , title = "Spread the word!"
+    , link = "http://www.blog.com"
     , content = "Spread the word..."
     }
 
@@ -35,6 +37,7 @@ post2 =
     { author = "Andrew"
     , date = "20.07.19"
     , title = "Optional type in Java"
+    , link = "http://www.blog.com"
     , content = "optional type in Java..."
     }
 
@@ -44,6 +47,7 @@ post3 =
     { author = "Katerina"
     , date = "19.07.19"
     , title = "Testing a Route in Spark"
+    , link = "http://www.blog.com"
     , content = "Testing a route in spark..."
     }
 
@@ -53,5 +57,6 @@ post4 =
     { author = "Gabi"
     , date = "20.07.18"
     , title = "Setting up my First Elixir project"
+    , link = "http://www.blog.com"
     , content = "Setting up my First Elixir project..."
     }

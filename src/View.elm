@@ -2,7 +2,7 @@ module View exposing (..)
 
 import Data.BlogPost exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, href)
 import Html.Events exposing (onClick)
 import Set exposing (Set)
 import Types exposing (..)
@@ -34,6 +34,20 @@ renderBlogPost { author, title, date, content } =
         , p [] [ text date ]
         , p [] [ text content ]
         ]
+
+
+renderBlogPostContent : Bool -> BlogPost -> Html Msg
+renderBlogPostContent contentVisible blogPost =
+    if contentVisible then
+        div []
+            [ p [] [ text blogPost.content ]
+            , a [ href blogPost.link ] [ text "SEE POST" ]
+            , button [] [ text "hide content" ]
+            ]
+    else
+        div []
+            [ button [] [ text "show content" ]
+            ]
 
 
 renderNavBar : Model -> Html Msg

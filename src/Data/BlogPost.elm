@@ -7,8 +7,19 @@ type alias BlogPost =
     { author : String
     , date : String
     , title : String
+    , link : String
     , content : String
     }
+
+
+isSelectedBlogPost : Maybe BlogPost -> BlogPost -> Bool
+isSelectedBlogPost selectedBlogPost blogPost =
+    case selectedBlogPost of
+        Just post ->
+            post == blogPost
+
+        Nothing ->
+            False
 
 
 filterPostsByAuthor : Maybe String -> List BlogPost -> List BlogPost
