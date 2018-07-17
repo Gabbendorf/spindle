@@ -1,0 +1,25 @@
+{
+  "name": "spindle",
+  "version": "1.0.0",
+  "description": "An app to collect apprentices' blog posts in one place.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "dev": "elm-live src/Main.elm --output=public/elm.js --dir=public --open --debug --pushstate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gabbendorf/spindle.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Gabbendorf/spindle/issues"
+  },
+  "homepage": "https://github.com/Gabbendorf/spindle#readme",
+  "devDependencies": {
+    "elm-live": "^2.7.5"
+  }
+}
