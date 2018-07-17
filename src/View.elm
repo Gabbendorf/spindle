@@ -7,9 +7,17 @@ import Html.Events exposing (onClick)
 import Types exposing (..)
 
 
+view : Model -> Html Msg
+view model =
+    div []
+        [ renderNavBar model
+        , renderFilteredBlogPosts model
+        ]
+
+
 renderFilteredBlogPosts : Model -> Html Msg
-renderFilteredBlogPosts { selectedApprentice, blogPosts } =
-    renderBlogPosts (filterPostsByApprentice selectedApprentice blogPosts)
+renderFilteredBlogPosts { selectedAuthor, blogPosts } =
+    renderBlogPosts (filterPostsByAuthor selectedAuthor blogPosts)
 
 
 renderBlogPosts : List BlogPost -> Html Msg
@@ -18,10 +26,34 @@ renderBlogPosts blogPostList =
 
 
 renderBlogPost : BlogPost -> Html Msg
-renderBlogPost { apprenticeName, title, date, content } =
+renderBlogPost { author, title, date, content } =
     div [ class "blog-post" ]
         [ h3 [] [ text title ]
-        , p [ class "apprentice-name", onClick (SelectApprentice apprenticeName) ] [ text apprenticeName ]
+        , p [ class "author", onClick (SelectAuthor author) ] [ text author ]
         , p [] [ text date ]
         , p [] [ text content ]
         ]
+
+
+renderNavBar : Model -> Html Msg
+renderNavBar model =
+    ul []
+        [ li [ class "navbar-item", onClick ClearAuthor ] [ text "All" ]
+        , li [ class "navbar-item", onClick ToggleAuthorsVisible ] [ text "Author" ]
+        , ul [ class "authors" ] (renderAuthors model)
+        ]
+
+
+renderAuthors : Model -> List (Html Msg)
+renderAuthors model =
+    if model.authorsVisible then
+        model.blogPosts
+            |> List.map (\blogPost -> blogPost.author)
+            |> List.map renderAuthor
+    else
+        []
+
+
+renderAuthor : String -> Html Msg
+renderAuthor author =
+    li [ class "author" ] [ text author ]

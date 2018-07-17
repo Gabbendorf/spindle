@@ -1,4 +1,4 @@
-module ViewTest exposing (..)
+module ViewTests.BlogViewTest exposing (..)
 
 import Expect
 import Test exposing (..)
@@ -26,13 +26,13 @@ suite =
                         |> Query.fromHtml
                         |> Query.findAll [ tag "p" ]
                         |> Query.count (Expect.equal 3)
-            , test "It selects the correct apprentice on click" <|
+            , test "It selects the correct author on click" <|
                 \_ ->
                     renderBlogPost post1
                         |> Query.fromHtml
-                        |> Query.find [ class "apprentice-name" ]
+                        |> Query.find [ class "author" ]
                         |> Event.simulate Event.click
-                        |> Event.expect (SelectApprentice post1.apprenticeName)
+                        |> Event.expect (SelectAuthor post1.author)
             ]
         , describe "renderBlogPosts"
             [ test "renders a list of blog posts" <|
@@ -43,11 +43,11 @@ suite =
                         |> Query.count (Expect.equal <| List.length sampleBlogPosts)
             ]
         , describe "renderFilteredBlogPosts"
-            [ test "renders all blog posts of selected apprentice" <|
+            [ test "renders all blog posts of selected author" <|
                 \_ ->
                     let
                         filteredModel =
-                            { initialModel | selectedApprentice = Just "Gabi" }
+                            { initialModel | selectedAuthor = Just "Gabi" }
                     in
                     renderFilteredBlogPosts filteredModel
                         |> Query.fromHtml

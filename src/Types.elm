@@ -4,11 +4,13 @@ import Data.BlogPost exposing (BlogPost)
 
 
 type alias Model =
-    { selectedApprentice : Maybe String
+    { selectedAuthor : Maybe String
     , blogPosts : List BlogPost
+    , authorsVisible : Bool
     }
 
 
 type Msg
-    = SelectApprentice String
-    | ClearApprentice
+    = SelectAuthor String
+    | ClearAuthor
+    | ToggleAuthorsVisible
