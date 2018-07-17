@@ -17,36 +17,48 @@ view model =
 
 
 renderFilteredBlogPosts : Model -> Html Msg
-renderFilteredBlogPosts { selectedAuthor, blogPosts } =
-    renderBlogPosts (filterPostsByAuthor selectedAuthor blogPosts)
+renderFilteredBlogPosts { selectedAuthor, blogPosts, selectedBlogPost } =
+    renderBlogPosts selectedBlogPost (filterPostsByAuthor selectedAuthor blogPosts)
 
 
-renderBlogPosts : List BlogPost -> Html Msg
-renderBlogPosts blogPostList =
-    div [] (List.map renderBlogPost blogPostList)
+renderBlogPosts : Maybe BlogPost -> List BlogPost -> Html Msg
+renderBlogPosts selectedBlogPost blogPostList =
+    div [] (List.map (renderBlogPost selectedBlogPost) blogPostList)
 
 
-renderBlogPost : BlogPost -> Html Msg
-renderBlogPost { author, title, date, content } =
+renderBlogPost : Maybe BlogPost -> BlogPost -> Html Msg
+renderBlogPost selectedBlogPost ({ author, title, date, content } as blogPost) =
+    let
+        contentVisible =
+            isSelectedBlogPost selectedBlogPost blogPost
+    in
     div [ class "blog-post" ]
         [ h3 [] [ text title ]
         , p [ class "author", onClick (SelectAuthor author) ] [ text author ]
         , p [] [ text date ]
-        , p [] [ text content ]
+        , renderBlogPostContent contentVisible blogPost
         ]
 
 
 renderBlogPostContent : Bool -> BlogPost -> Html Msg
 renderBlogPostContent contentVisible blogPost =
     if contentVisible then
-        div []
+        div [ class "post-content" ]
             [ p [] [ text blogPost.content ]
             , a [ href blogPost.link ] [ text "SEE POST" ]
-            , button [] [ text "hide content" ]
+            , button
+                [ class "hide-content"
+                , onClick ClearSelectedBlogPost
+                ]
+                [ text "hide content" ]
             ]
     else
-        div []
-            [ button [] [ text "show content" ]
+        div [ class "post-content" ]
+            [ button
+                [ class "show-content"
+                , onClick (SelectBlogPost blogPost)
+                ]
+                [ text "show content" ]
             ]
 
 
