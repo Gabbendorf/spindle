@@ -52,6 +52,6 @@ suite =
                     renderFilteredBlogPosts filteredModel
                         |> Query.fromHtml
                         |> Query.findAll [ class "blog-post" ]
-                        |> Query.count (Expect.equal 1)
+                        |> Query.count (Expect.equal 2)
             ]
         ]

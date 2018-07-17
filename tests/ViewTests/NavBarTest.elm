@@ -71,6 +71,6 @@ suite =
                         |> Query.findAll [ class "author" ]
                         |> Query.first
                         |> Event.simulate Event.click
-                        |> Event.expect (SelectAuthor post1.author)
+                        |> Event.expect (SelectAuthor "Andrew")
             ]
         ]

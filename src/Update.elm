@@ -36,7 +36,10 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         SelectAuthor author ->
-            { model | selectedAuthor = Just author }
+            { model
+                | selectedAuthor = Just author
+                , authorsVisible = True
+            }
 
         ClearAuthor ->
             { model

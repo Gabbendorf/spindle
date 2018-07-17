@@ -4,6 +4,7 @@ import Data.BlogPost exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
+import Set exposing (Set)
 import Types exposing (..)
 
 
@@ -48,7 +49,8 @@ renderAuthors : Model -> List (Html Msg)
 renderAuthors model =
     if model.authorsVisible then
         model.blogPosts
-            |> List.map (\blogPost -> blogPost.author)
+            |> authorsList
+            |> Set.toList
             |> List.map renderAuthor
     else
         []

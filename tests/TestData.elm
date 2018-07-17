@@ -17,6 +17,7 @@ sampleBlogPosts =
     [ post1
     , post2
     , post3
+    , post4
     ]
 
 
@@ -44,4 +45,13 @@ post3 =
     , date = "19.07.19"
     , title = "Testing a Route in Spark"
     , content = "Testing a route in spark..."
+    }
+
+
+post4 : BlogPost
+post4 =
+    { author = "Gabi"
+    , date = "20.07.18"
+    , title = "Setting up my First Elixir project"
+    , content = "Setting up my First Elixir project..."
     }

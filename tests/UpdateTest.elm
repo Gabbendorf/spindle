@@ -18,6 +18,13 @@ suite =
                             update (SelectAuthor "Gabi") initialModel
                     in
                     Expect.equal nextModel.selectedAuthor (Just "Gabi")
+            , test "Selecting an author makes authors menu visible" <|
+                \_ ->
+                    let
+                        nextModel =
+                            update (SelectAuthor "Gabi") initialModel
+                    in
+                    Expect.equal nextModel.authorsVisible True
             , test "Clears selected author" <|
                 \_ ->
                     let

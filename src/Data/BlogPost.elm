@@ -1,5 +1,7 @@
 module Data.BlogPost exposing (..)
 
+import Set exposing (Set)
+
 
 type alias BlogPost =
     { author : String
@@ -17,3 +19,10 @@ filterPostsByAuthor selectedAuthor blogPostList =
 
         Nothing ->
             blogPostList
+
+
+authorsList : List BlogPost -> Set String
+authorsList blogPosts =
+    blogPosts
+        |> List.map (\blogPost -> blogPost.author)
+        |> Set.fromList
