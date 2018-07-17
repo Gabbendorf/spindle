@@ -56,4 +56,4 @@ renderAuthors model =
 
 renderAuthor : String -> Html Msg
 renderAuthor author =
-    li [ class "author" ] [ text author ]
+    li [ class "author", onClick (SelectAuthor author) ] [ text author ]

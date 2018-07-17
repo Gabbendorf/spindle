@@ -60,5 +60,17 @@ suite =
                         |> Query.fromHtml
                         |> Query.findAll [ class "author" ]
                         |> Query.count (Expect.equal 0)
+            , test "Clicking on an author from the list of authors selects that author" <|
+                \_ ->
+                    let
+                        model =
+                            { initialModel | authorsVisible = True }
+                    in
+                    renderNavBar model
+                        |> Query.fromHtml
+                        |> Query.findAll [ class "author" ]
+                        |> Query.first
+                        |> Event.simulate Event.click
+                        |> Event.expect (SelectAuthor post1.author)
             ]
         ]
