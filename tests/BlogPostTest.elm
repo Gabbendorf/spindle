@@ -4,7 +4,7 @@ import Data.BlogPost exposing (..)
 import Expect
 import Set exposing (Set)
 import Test exposing (..)
-import TestData exposing (sampleBlogPosts)
+import TestData exposing (post1, post2, sampleBlogPosts)
 
 
 suite : Test
@@ -49,5 +49,16 @@ suite =
                             authorsList sampleBlogPosts
                     in
                     Expect.equal (Set.size authors) 3
+            ]
+        , describe "isSelectedBlogPost"
+            [ test "it returns True if blog post matches selected blog post" <|
+                \_ ->
+                    Expect.true "blog post is selected" (isSelectedBlogPost (Just post1) post1)
+            , test "it returns False if blog is not a match" <|
+                \_ ->
+                    Expect.false "blog post is not a match" (isSelectedBlogPost (Just post2) post1)
+            , test "it returns false when no blog post is selected" <|
+                \_ ->
+                    Expect.false "no blog post" (isSelectedBlogPost Nothing post1)
             ]
         ]

@@ -2,7 +2,7 @@ module UpdateTest exposing (..)
 
 import Expect
 import Test exposing (..)
-import TestData exposing (initialModel, sampleBlogPosts)
+import TestData exposing (initialModel, post1, sampleBlogPosts)
 import Types exposing (..)
 import Update exposing (update)
 
@@ -59,5 +59,22 @@ suite =
                             update ClearAuthor model
                     in
                     Expect.equal nextModel.authorsVisible False
+            , test "selects a particular blog post" <|
+                \_ ->
+                    let
+                        nextModel =
+                            update (SelectBlogPost post1) initialModel
+                    in
+                    Expect.equal nextModel.selectedBlogPost (Just post1)
+            , test "clears selected blog post" <|
+                \_ ->
+                    let
+                        model =
+                            { initialModel | selectedBlogPost = Just post1 }
+
+                        nextModel =
+                            update ClearSelectedBlogPost model
+                    in
+                    Expect.equal nextModel.selectedBlogPost Nothing
             ]
         ]
