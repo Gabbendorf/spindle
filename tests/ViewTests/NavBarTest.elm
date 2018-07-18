@@ -5,7 +5,7 @@ import Test exposing (..)
 import Test.Html.Event as Event
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (class, tag, text)
-import TestData exposing (initialModel, post1, sampleBlogPosts)
+import TestData exposing (initialModel, post1)
 import Types exposing (..)
 import View exposing (..)
 
