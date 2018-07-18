@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+
+/* Utilities  */
+
+.sans-serif {
+  font-family: Lato;
+}
+
+.serif {
+  font-family: Vollkorn;
+}
+
+
+/* Navigation */
+
+.logo {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.navbar {
+  margin: 0 10px;
+}
+
+.navbar--item {
+  display: inline-block;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+.authors-list {
+  margin-top: 10px;
+}
+
+.authors-list--author {
+  display: inline-block;
+  margin-right: 20px;
+  cursor: pointer;
+}
+
+
+/* Page */
+
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+/* Blog Posts  */
+
+.blog-post {
+  margin: 40px 0;
+  padding: 20px;
+  box-shadow: 0 4px 14px #c1c1c19c;
+}
+
+.blog-post--title-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.blog-post--title {
+  font-weight: 400;
+  letter-spacing: 0.1px;
+  color: #484848;
+  margin: 0;
+}
+
+.blog-post--author {
+  margin: 0;
+}
+
+.blog-post--date {
+  color: #BCBCBC;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+
+/* Blog Post Content */
+
+.blog-post-content--visibility-button {
+  margin-top: 20px;
+  padding: 0;
+  border: none;
+  outline: 0;
+}
+
+.blog-post-content--link {
+  text-decoration: none;
+  display: inline-block;
+  color: white;
+  padding: 6px 10px;
+  letter-spacing: 1px;
+  border-radius: 16px;
+  font-size: 11px;
+}

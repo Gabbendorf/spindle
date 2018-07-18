@@ -16,19 +16,19 @@ initialModel =
 sampleBlogPosts : List BlogPost
 sampleBlogPosts =
     [ { author = "Gabi"
-      , date = "21.07.18"
+      , date = "21 . 07 . 18"
       , title = "Spread the word!"
       , link = "http://www.blog.com"
       , content = "Spread the word..."
       }
     , { author = "Andrew"
-      , date = "20.07.19"
+      , date = "20 . 07 . 19"
       , title = "Optional type in Java"
       , link = "http://www.blog.com"
       , content = "optional type in Java..."
       }
     , { author = "Katerina"
-      , date = "19.07.19"
+      , date = "19 . 07 . 19"
       , title = "Testing a Route in Spark"
       , link = "http://www.blog.com"
       , content = "Testing a route in spark..."
@@ -43,16 +43,18 @@ update msg model =
             { model
                 | selectedAuthor = Just author
                 , authorsVisible = True
+                , selectedBlogPost = Nothing
             }
 
         ClearAuthor ->
             { model
                 | selectedAuthor = Nothing
                 , authorsVisible = False
+                , selectedBlogPost = Nothing
             }
 
         ToggleAuthorsVisible ->
-            { model | authorsVisible = not model.authorsVisible }
+            { model | authorsVisible = not model.authorsVisible, selectedBlogPost = Nothing }
 
         SelectBlogPost blogPost ->
             { model | selectedBlogPost = Just blogPost }
