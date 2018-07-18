@@ -92,7 +92,7 @@ renderBlogPostContent : Bool -> BlogPost -> Html Msg
 renderBlogPostContent contentVisible blogPost =
     if contentVisible then
         div [ class "blog-post-content" ]
-            [ p [ class "serif" ] [ text blogPost.content ]
+            [ p [ class "serif blog-post-content--text" ] [ text blogPost.content ]
             , a
                 [ href blogPost.link
                 , target "_blank"
