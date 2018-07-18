@@ -4,7 +4,7 @@ import Expect
 import Test exposing (..)
 import Test.Html.Event as Event
 import Test.Html.Query as Query
-import Test.Html.Selector exposing (class, tag, text)
+import Test.Html.Selector exposing (class, classes, tag, text)
 import TestData exposing (initialModel, post1, sampleBlogPosts)
 import Types exposing (..)
 import View exposing (..)
@@ -30,7 +30,7 @@ suite =
                 \_ ->
                     renderBlogPost Nothing post1
                         |> Query.fromHtml
-                        |> Query.find [ class "author" ]
+                        |> Query.find [ class "blog-post--author" ]
                         |> Event.simulate Event.click
                         |> Event.expect (SelectAuthor post1.author)
             , test "Renders content if blog post is selected" <|
@@ -61,24 +61,24 @@ suite =
                         |> Query.count (Expect.equal 2)
             ]
         , describe "renderBlogPostContent"
-            [ test "it renders a visibility toggle button when content is not visible" <|
+            [ test "renders hidden content when visibility set to hidden" <|
                 \_ ->
                     renderBlogPostContent False post1
                         |> Query.fromHtml
-                        |> Query.findAll [ tag "button" ]
-                        |> Query.count (Expect.equal 1)
-            , test "it selects blog post if content not visible" <|
+                        |> Query.findAll [ class "post-content" ]
+                        |> Query.count (Expect.equal 0)
+            ]
+        , describe "renderContentVisibilityButton"
+            [ test "it selects blog post if content not visible" <|
                 \_ ->
-                    renderBlogPostContent False post1
+                    renderContentVisibilityButton False post1
                         |> Query.fromHtml
-                        |> Query.find [ class "show-content" ]
                         |> Event.simulate Event.click
                         |> Event.expect (SelectBlogPost post1)
             , test "it clears selected blog post if content is visible" <|
                 \_ ->
-                    renderBlogPostContent True post1
+                    renderContentVisibilityButton True post1
                         |> Query.fromHtml
-                        |> Query.find [ class "hide-content" ]
                         |> Event.simulate Event.click
                         |> Event.expect ClearSelectedBlogPost
             ]

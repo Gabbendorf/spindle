@@ -18,7 +18,7 @@ suite =
                 \_ ->
                     renderNavBar initialModel
                         |> Query.fromHtml
-                        |> Query.findAll [ class "navbar-item" ]
+                        |> Query.findAll [ class "navbar--item" ]
                         |> Query.count (Expect.equal 2)
             , test "Clicking on All clears the selected apprentice" <|
                 \_ ->
@@ -28,7 +28,7 @@ suite =
                     in
                     renderNavBar model
                         |> Query.fromHtml
-                        |> Query.findAll [ class "navbar-item" ]
+                        |> Query.findAll [ class "navbar--item" ]
                         |> Query.first
                         |> Event.simulate Event.click
                         |> Event.expect ClearAuthor
@@ -36,7 +36,7 @@ suite =
                 \_ ->
                     renderNavBar initialModel
                         |> Query.fromHtml
-                        |> Query.findAll [ class "navbar-item" ]
+                        |> Query.findAll [ class "navbar--item" ]
                         |> Query.index 1
                         |> Event.simulate Event.click
                         |> Event.expect ToggleAuthorsVisible
@@ -48,7 +48,7 @@ suite =
                     in
                     renderNavBar model
                         |> Query.fromHtml
-                        |> Query.findAll [ class "author" ]
+                        |> Query.findAll [ class "authors-list--author" ]
                         |> Query.count (Expect.equal 3)
             , test "If Authors is not visible should render 0 authors" <|
                 \_ ->
@@ -58,7 +58,7 @@ suite =
                     in
                     renderNavBar model
                         |> Query.fromHtml
-                        |> Query.findAll [ class "author" ]
+                        |> Query.findAll [ class "authors-list--author" ]
                         |> Query.count (Expect.equal 0)
             , test "Clicking on an author from the list of authors selects that author" <|
                 \_ ->
@@ -68,7 +68,7 @@ suite =
                     in
                     renderNavBar model
                         |> Query.fromHtml
-                        |> Query.findAll [ class "author" ]
+                        |> Query.findAll [ class "authors-list--author" ]
                         |> Query.first
                         |> Event.simulate Event.click
                         |> Event.expect (SelectAuthor "Andrew")
