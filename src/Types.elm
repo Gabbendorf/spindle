@@ -1,6 +1,8 @@
 module Types exposing (..)
 
 import Data.BlogPost exposing (BlogPost)
+import Http
+import Request.Author exposing (Author)
 
 
 type alias Model =
@@ -8,6 +10,8 @@ type alias Model =
     , selectedBlogPost : Maybe BlogPost
     , blogPosts : List BlogPost
     , authorsVisible : Bool
+    , authors : List Author
+    , authorsApiError : Maybe String
     }
 
 
@@ -17,3 +21,4 @@ type Msg
     | ToggleAuthorsVisible
     | SelectBlogPost BlogPost
     | ClearSelectedBlogPost
+    | ReceiveAuthors (Result Http.Error (List Author))

@@ -1,6 +1,7 @@
 module TestData exposing (..)
 
 import Data.BlogPost exposing (..)
+import Request.Author exposing (Author)
 import Types exposing (Model)
 
 
@@ -10,7 +11,17 @@ initialModel =
     , selectedBlogPost = Nothing
     , blogPosts = sampleBlogPosts
     , authorsVisible = False
+    , authors = []
+    , authorsApiError = Nothing
     }
+
+
+sampleAuthors : List Author
+sampleAuthors =
+    [ { name = "Gabi", posts = [] }
+    , { name = "Andrew", posts = [] }
+    , { name = "Katerina", posts = [] }
+    ]
 
 
 sampleBlogPosts : List BlogPost

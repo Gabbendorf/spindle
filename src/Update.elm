@@ -1,12 +1,13 @@
 module Update exposing (..)
 
 import Data.BlogPost exposing (BlogPost)
+import Request.Author exposing (getAuthors)
 import Types exposing (..)
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, Cmd.none )
+    ( initialModel, getAuthors ReceiveAuthors )
 
 
 initialModel : Model
@@ -15,6 +16,8 @@ initialModel =
     , selectedBlogPost = Nothing
     , blogPosts = sampleBlogPosts
     , authorsVisible = False
+    , authors = []
+    , authorsApiError = Nothing
     }
 
 
@@ -74,6 +77,16 @@ update msg model =
 
         ClearSelectedBlogPost ->
             ( { model | selectedBlogPost = Nothing }
+            , Cmd.none
+            )
+
+        ReceiveAuthors (Err _) ->
+            ( { model | authorsApiError = Just "something went wrong fetching the posts" }
+            , Cmd.none
+            )
+
+        ReceiveAuthors (Ok authors) ->
+            ( { model | authors = authors }
             , Cmd.none
             )
 

@@ -1,8 +1,9 @@
 module UpdateTest exposing (..)
 
 import Expect
+import Http
 import Test exposing (..)
-import TestData exposing (initialModel, post1, sampleBlogPosts)
+import TestData exposing (initialModel, post1, sampleAuthors, sampleBlogPosts)
 import Types exposing (..)
 import Update exposing (update)
 
@@ -76,5 +77,19 @@ suite =
                             update ClearSelectedBlogPost model
                     in
                     Expect.equal nextModel.selectedBlogPost Nothing
+            , test "Receives a list of authors" <|
+                \_ ->
+                    let
+                        ( nextModel, _ ) =
+                            update (ReceiveAuthors (Ok sampleAuthors)) initialModel
+                    in
+                    Expect.equal (List.length nextModel.authors) 3
+            , test "Sets an api error if request fails" <|
+                \_ ->
+                    let
+                        ( nextModel, _ ) =
+                            update (ReceiveAuthors (Err Http.NetworkError)) initialModel
+                    in
+                    Expect.equal nextModel.authorsApiError (Just "something went wrong fetching the posts")
             ]
         ]
