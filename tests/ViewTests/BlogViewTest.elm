@@ -40,22 +40,22 @@ suite =
                         |> Query.find [ tag "a" ]
                         |> Query.has [ text "SEE POST" ]
             ]
-        , describe "renderBlogPosts"
+        , describe "renderBlogStream"
             [ test "renders a list of blog posts" <|
                 \_ ->
-                    renderBlogPosts Nothing sampleBlogStream
+                    renderBlogStream Nothing sampleBlogStream
                         |> Query.fromHtml
                         |> Query.findAll [ class "blog-post" ]
                         |> Query.count (Expect.equal <| List.length sampleBlogStream)
             ]
-        , describe "renderFilteredBlogPosts"
+        , describe "renderFilteredBlogStream"
             [ test "renders all blog posts of selected author" <|
                 \_ ->
                     let
                         filteredModel =
                             { initialModel | selectedAuthor = Just "Gabi" }
                     in
-                    renderFilteredBlogPosts filteredModel
+                    renderFilteredBlogStream filteredModel
                         |> Query.fromHtml
                         |> Query.findAll [ class "blog-post" ]
                         |> Query.count (Expect.equal 2)

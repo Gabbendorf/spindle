@@ -14,7 +14,7 @@ view model =
         [ h1 [ class "serif logo" ] [ text "Spindle" ]
         , div [ class "page-container" ]
             [ renderNavBar model
-            , renderFilteredBlogPosts model
+            , renderFilteredBlogStream model
             ]
         ]
 
@@ -52,13 +52,13 @@ renderAuthor author =
 -- BlogPosts
 
 
-renderFilteredBlogPosts : Model -> Html Msg
-renderFilteredBlogPosts { selectedAuthor, authors, selectedBlogPost } =
-    renderBlogPosts selectedBlogPost (filterPostsByAuthor selectedAuthor authors)
+renderFilteredBlogStream : Model -> Html Msg
+renderFilteredBlogStream { selectedAuthor, authors, selectedBlogPost } =
+    renderBlogStream selectedBlogPost (filterPostsByAuthor selectedAuthor authors)
 
 
-renderBlogPosts : Maybe BlogPost -> List ( String, BlogPost ) -> Html Msg
-renderBlogPosts selectedBlogPost blogPostList =
+renderBlogStream : Maybe BlogPost -> List ( String, BlogPost ) -> Html Msg
+renderBlogStream selectedBlogPost blogPostList =
     div [] (List.map (renderBlogPost selectedBlogPost) blogPostList)
 
 

@@ -33,14 +33,17 @@ filterPostsByAuthor selectedAuthor authors =
         Just authorName ->
             authors
                 |> List.filter (\author -> author.name == authorName)
-                |> List.map (\author -> author.posts)
-                |> List.concat
-                |> List.map (\post -> ( authorName, post ))
+                |> authorsToBlogStream
 
         Nothing ->
-            authors
-                |> List.map authorToBlogStream
-                |> List.concat
+            authorsToBlogStream authors
+
+
+authorsToBlogStream : List Author -> List ( String, BlogPost )
+authorsToBlogStream authors =
+    authors
+        |> List.map authorToBlogStream
+        |> List.concat
 
 
 authorToBlogStream : Author -> List ( String, BlogPost )
