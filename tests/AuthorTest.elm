@@ -1,10 +1,10 @@
-module BlogPostTest exposing (..)
+module AuthorTest exposing (..)
 
-import Data.BlogPost exposing (..)
+import Data.Author exposing (..)
 import Expect
 import Set exposing (Set)
 import Test exposing (..)
-import TestData exposing (post1, post2, sampleBlogPosts)
+import TestData exposing (post1, post2, sampleAuthors)
 
 
 suite : Test
@@ -15,14 +15,14 @@ suite =
                 \_ ->
                     let
                         filteredPosts =
-                            filterPostsByAuthor (Just "Gabi") sampleBlogPosts
+                            filterPostsByAuthor (Just "Gabi") sampleAuthors
                     in
                     Expect.equal (List.length filteredPosts) 2
             , test "it returns all blog posts for no author" <|
                 \_ ->
                     let
                         filteredPosts =
-                            filterPostsByAuthor Nothing sampleBlogPosts
+                            filterPostsByAuthor Nothing sampleAuthors
                     in
                     Expect.equal (List.length filteredPosts) 4
             ]
@@ -31,7 +31,7 @@ suite =
                 \_ ->
                     let
                         authors =
-                            authorsList sampleBlogPosts
+                            authorsList sampleAuthors
 
                         containsAuthor author authors =
                             Expect.true "contains author" (Set.member author authors)
@@ -46,7 +46,7 @@ suite =
                 \_ ->
                     let
                         authors =
-                            authorsList sampleBlogPosts
+                            authorsList sampleAuthors
                     in
                     Expect.equal (Set.size authors) 3
             ]

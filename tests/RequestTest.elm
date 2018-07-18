@@ -1,5 +1,6 @@
 module RequestTest exposing (..)
 
+import Data.Author exposing (..)
 import Expect
 import Fuzz exposing (..)
 import Json.Decode exposing (decodeValue)

@@ -1,14 +1,12 @@
 module Types exposing (..)
 
-import Data.BlogPost exposing (BlogPost)
+import Data.Author exposing (..)
 import Http
-import Request.Author exposing (Author)
 
 
 type alias Model =
     { selectedAuthor : Maybe String
     , selectedBlogPost : Maybe BlogPost
-    , blogPosts : List BlogPost
     , authorsVisible : Bool
     , authors : List Author
     , authorsApiError : Maybe String

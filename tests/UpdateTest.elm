@@ -3,7 +3,7 @@ module UpdateTest exposing (..)
 import Expect
 import Http
 import Test exposing (..)
-import TestData exposing (initialModel, post1, sampleAuthors, sampleBlogPosts)
+import TestData exposing (initialModel, post1, sampleAuthors)
 import Types exposing (..)
 import Update exposing (update)
 

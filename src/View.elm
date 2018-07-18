@@ -1,8 +1,8 @@
 module View exposing (..)
 
-import Data.BlogPost exposing (..)
+import Data.Author exposing (..)
 import Html exposing (..)
-import Html.Attributes exposing (class, href)
+import Html.Attributes exposing (class, href, target)
 import Html.Events exposing (onClick)
 import Set exposing (Set)
 import Types exposing (..)
@@ -35,7 +35,7 @@ renderNavBar model =
 renderAuthors : Model -> List (Html Msg)
 renderAuthors model =
     if model.authorsVisible then
-        model.blogPosts
+        model.authors
             |> authorsList
             |> Set.toList
             |> List.map renderAuthor
@@ -53,17 +53,17 @@ renderAuthor author =
 
 
 renderFilteredBlogPosts : Model -> Html Msg
-renderFilteredBlogPosts { selectedAuthor, blogPosts, selectedBlogPost } =
-    renderBlogPosts selectedBlogPost (filterPostsByAuthor selectedAuthor blogPosts)
+renderFilteredBlogPosts { selectedAuthor, authors, selectedBlogPost } =
+    renderBlogPosts selectedBlogPost (filterPostsByAuthor selectedAuthor authors)
 
 
-renderBlogPosts : Maybe BlogPost -> List BlogPost -> Html Msg
+renderBlogPosts : Maybe BlogPost -> List ( String, BlogPost ) -> Html Msg
 renderBlogPosts selectedBlogPost blogPostList =
     div [] (List.map (renderBlogPost selectedBlogPost) blogPostList)
 
 
-renderBlogPost : Maybe BlogPost -> BlogPost -> Html Msg
-renderBlogPost selectedBlogPost ({ author, title, date, content } as blogPost) =
+renderBlogPost : Maybe BlogPost -> ( String, BlogPost ) -> Html Msg
+renderBlogPost selectedBlogPost ( author, { title, date, content } as blogPost ) =
     let
         contentVisible =
             isSelectedBlogPost selectedBlogPost blogPost
@@ -84,7 +84,12 @@ renderBlogPostContent contentVisible blogPost =
     if contentVisible then
         div [ class "blog-post-content" ]
             [ p [ class "serif" ] [ text blogPost.content ]
-            , a [ href blogPost.link, class "blog-post-content-link sans-serif" ] [ text "SEE POST" ]
+            , a
+                [ href blogPost.link
+                , target "_blank"
+                , class "blog-post-content-link sans-serif"
+                ]
+                [ text "SEE POST" ]
             ]
     else
         span [] []

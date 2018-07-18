@@ -1,22 +1,9 @@
 module Request.Author exposing (..)
 
+import Data.Author exposing (..)
 import Http
 import Json.Decode exposing (Decoder, list, string)
 import Json.Decode.Pipeline exposing (decode, required)
-
-
-type alias Author =
-    { name : String
-    , posts : List BlogPost
-    }
-
-
-type alias BlogPost =
-    { title : String
-    , link : String
-    , date : String
-    , content : String
-    }
 
 
 getAuthors : (Result Http.Error (List Author) -> msg) -> Cmd msg
