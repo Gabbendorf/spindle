@@ -72,5 +72,15 @@ suite =
                         |> Query.first
                         |> Event.simulate Event.click
                         |> Event.expect (SelectAuthor "Andrew")
+            , test "Authors render with correct colors" <|
+                \_ ->
+                    let
+                        model =
+                            { initialModel | authorsVisible = True }
+                    in
+                    renderNavBar model
+                        |> Query.fromHtml
+                        |> Query.findAll [ class "red" ]
+                        |> Query.count (Expect.equal 1)
             ]
         ]

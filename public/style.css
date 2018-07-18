@@ -19,6 +19,21 @@ ul {
 }
 
 
+/* Colors */
+
+.red {
+  color: #FF7C7C;
+}
+
+.blue {
+  color: #7CC0FF;
+}
+
+.green {
+  color: #8EDAA2;
+}
+
+
 /* Navigation */
 
 .logo {

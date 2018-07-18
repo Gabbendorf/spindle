@@ -51,8 +51,8 @@ authorToBlogStream author =
     List.map (\post -> ( author.name, post )) author.posts
 
 
-authorsList : List Author -> Set String
-authorsList authors =
+alphabeticalAuthors : List Author -> Set String
+alphabeticalAuthors authors =
     authors
         |> List.map .name
         |> Set.fromList

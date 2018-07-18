@@ -1,6 +1,7 @@
 module View exposing (..)
 
 import Data.Author exposing (..)
+import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, target)
 import Html.Events exposing (onClick)
@@ -34,18 +35,26 @@ renderNavBar model =
 
 renderAuthors : Model -> List (Html Msg)
 renderAuthors model =
+    let
+        colors =
+            authorColors model.authors
+    in
     if model.authorsVisible then
         model.authors
-            |> authorsList
+            |> alphabeticalAuthors
             |> Set.toList
-            |> List.map renderAuthor
+            |> List.map (renderAuthor colors)
     else
         []
 
 
-renderAuthor : String -> Html Msg
-renderAuthor author =
-    li [ class "authors-list--author", onClick (SelectAuthor author) ] [ text author ]
+renderAuthor : Dict String String -> String -> Html Msg
+renderAuthor colors author =
+    let
+        color =
+            getAuthorColor colors author
+    in
+    li [ class ("authors-list--author " ++ color), onClick (SelectAuthor author) ] [ text author ]
 
 
 
@@ -109,3 +118,33 @@ renderContentVisibilityButton contentVisible blogPost =
             , onClick (SelectBlogPost blogPost)
             ]
             [ text "show content" ]
+
+
+
+-- Colors
+
+
+getAuthorColor : Dict String String -> String -> String
+getAuthorColor colors authorName =
+    colors
+        |> Dict.get authorName
+        |> Maybe.withDefault ""
+
+
+authorColors : List Author -> Dict String String
+authorColors authors =
+    authors
+        |> alphabeticalAuthors
+        |> Set.toList
+        |> List.indexedMap (\i name -> assignColor i name)
+        |> Dict.fromList
+
+
+assignColor : Int -> String -> ( String, String )
+assignColor index authorName =
+    if index % 3 == 0 then
+        ( authorName, "red" )
+    else if index % 3 == 1 then
+        ( authorName, "blue" )
+    else
+        ( authorName, "green" )

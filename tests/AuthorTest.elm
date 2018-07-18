@@ -26,12 +26,12 @@ suite =
                     in
                     Expect.equal (List.length filteredPosts) 4
             ]
-        , describe "authorsList"
-            [ test "it creates a list of all authors by name" <|
+        , describe "alphabeticalAuthors"
+            [ test "it creates a collection of all authors by name" <|
                 \_ ->
                     let
                         authors =
-                            authorsList sampleAuthors
+                            alphabeticalAuthors sampleAuthors
 
                         containsAuthor author authors =
                             Expect.true "contains author" (Set.member author authors)
@@ -46,7 +46,7 @@ suite =
                 \_ ->
                     let
                         authors =
-                            authorsList sampleAuthors
+                            alphabeticalAuthors sampleAuthors
                     in
                     Expect.equal (Set.size authors) 3
             ]
