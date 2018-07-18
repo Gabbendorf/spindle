@@ -4,6 +4,11 @@ import Data.BlogPost exposing (BlogPost)
 import Types exposing (..)
 
 
+init : ( Model, Cmd Msg )
+init =
+    ( initialModel, Cmd.none )
+
+
 initialModel : Model
 initialModel =
     { selectedAuthor = Nothing
@@ -36,28 +41,43 @@ sampleBlogPosts =
     ]
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectAuthor author ->
-            { model
+            ( { model
                 | selectedAuthor = Just author
                 , authorsVisible = True
                 , selectedBlogPost = Nothing
-            }
+              }
+            , Cmd.none
+            )
 
         ClearAuthor ->
-            { model
+            ( { model
                 | selectedAuthor = Nothing
                 , authorsVisible = False
                 , selectedBlogPost = Nothing
-            }
+              }
+            , Cmd.none
+            )
 
         ToggleAuthorsVisible ->
-            { model | authorsVisible = not model.authorsVisible, selectedBlogPost = Nothing }
+            ( { model | authorsVisible = not model.authorsVisible, selectedBlogPost = Nothing }
+            , Cmd.none
+            )
 
         SelectBlogPost blogPost ->
-            { model | selectedBlogPost = Just blogPost }
+            ( { model | selectedBlogPost = Just blogPost }
+            , Cmd.none
+            )
 
         ClearSelectedBlogPost ->
-            { model | selectedBlogPost = Nothing }
+            ( { model | selectedBlogPost = Nothing }
+            , Cmd.none
+            )
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none

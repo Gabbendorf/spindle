@@ -14,28 +14,28 @@ suite =
             [ test "Sets a selected author" <|
                 \_ ->
                     let
-                        nextModel =
+                        ( nextModel, _ ) =
                             update (SelectAuthor "Gabi") initialModel
                     in
                     Expect.equal nextModel.selectedAuthor (Just "Gabi")
             , test "Selecting an author makes authors menu visible" <|
                 \_ ->
                     let
-                        nextModel =
+                        ( nextModel, _ ) =
                             update (SelectAuthor "Gabi") initialModel
                     in
                     Expect.equal nextModel.authorsVisible True
             , test "Clears selected author" <|
                 \_ ->
                     let
-                        nextModel =
+                        ( nextModel, _ ) =
                             update ClearAuthor initialModel
                     in
                     Expect.equal nextModel.selectedAuthor Nothing
             , test "if authorsVisible is False sets authorsVisible to True" <|
                 \_ ->
                     let
-                        nextModel =
+                        ( nextModel, _ ) =
                             update ToggleAuthorsVisible initialModel
                     in
                     Expect.equal nextModel.authorsVisible True
@@ -45,7 +45,7 @@ suite =
                         model =
                             { initialModel | authorsVisible = True }
 
-                        nextModel =
+                        ( nextModel, _ ) =
                             update ToggleAuthorsVisible model
                     in
                     Expect.equal nextModel.authorsVisible False
@@ -55,14 +55,14 @@ suite =
                         model =
                             { initialModel | authorsVisible = True, selectedAuthor = Just "Gabi" }
 
-                        nextModel =
+                        ( nextModel, _ ) =
                             update ClearAuthor model
                     in
                     Expect.equal nextModel.authorsVisible False
             , test "selects a particular blog post" <|
                 \_ ->
                     let
-                        nextModel =
+                        ( nextModel, _ ) =
                             update (SelectBlogPost post1) initialModel
                     in
                     Expect.equal nextModel.selectedBlogPost (Just post1)
@@ -72,7 +72,7 @@ suite =
                         model =
                             { initialModel | selectedBlogPost = Just post1 }
 
-                        nextModel =
+                        ( nextModel, _ ) =
                             update ClearSelectedBlogPost model
                     in
                     Expect.equal nextModel.selectedBlogPost Nothing
