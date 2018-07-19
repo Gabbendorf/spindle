@@ -1,5 +1,8 @@
 node_modules
+jspm_packages
 elm-stuff
+
+.serverless
 
 public/elm.js
 

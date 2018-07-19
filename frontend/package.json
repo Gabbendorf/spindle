@@ -1,5 +1,5 @@
 {
-  "name": "spindle",
+  "name": "spindle-frontend",
   "version": "1.0.0",
   "description": "An app to collect apprentices' blog posts in one place.",
   "main": "index.js",

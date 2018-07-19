@@ -1,0 +1,17 @@
+service: api
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+
+functions:
+  authors:
+    handler: src/authors/index.handler
+    events:
+      - http:
+          path: authors
+          method: get
+          cors: true
+
+plugins:
+  - serverless-offline
