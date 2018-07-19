@@ -1,11 +1,12 @@
 module ViewTests.BlogViewTest exposing (..)
 
+import Dict exposing (Dict)
 import Expect
 import Test exposing (..)
 import Test.Html.Event as Event
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (class, classes, tag, text)
-import TestData exposing (initialModel, post1, sampleBlogStream)
+import TestData exposing (initialModel, post1, sampleAuthors, sampleBlogStream)
 import Types exposing (..)
 import View exposing (..)
 
@@ -16,26 +17,32 @@ suite =
         [ describe "renderBlogPost"
             [ test "It renders a title correctly" <|
                 \_ ->
-                    renderBlogPost Nothing ( "Gabi", post1 )
+                    renderBlogPost colors Nothing ( "Gabi", post1 )
                         |> Query.fromHtml
                         |> Query.find [ tag "h3" ]
                         |> Query.has [ text post1.title ]
             , test "It renders correct number of paragraphs" <|
                 \_ ->
-                    renderBlogPost Nothing ( "Gabi", post1 )
+                    renderBlogPost colors Nothing ( "Gabi", post1 )
                         |> Query.fromHtml
                         |> Query.findAll [ tag "p" ]
                         |> Query.count (Expect.equal 2)
+            , test "It renders the author color correctly" <|
+                \_ ->
+                    renderBlogPost colors Nothing ( "Gabi", post1 )
+                        |> Query.fromHtml
+                        |> Query.find [ class "blog-post--author" ]
+                        |> Query.has [ class "green" ]
             , test "It selects the correct author on click" <|
                 \_ ->
-                    renderBlogPost Nothing ( "Gabi", post1 )
+                    renderBlogPost colors Nothing ( "Gabi", post1 )
                         |> Query.fromHtml
                         |> Query.find [ class "blog-post--author" ]
                         |> Event.simulate Event.click
                         |> Event.expect (SelectAuthor "Gabi")
             , test "Renders content if blog post is selected" <|
                 \_ ->
-                    renderBlogPost (Just post1) ( "Gabi", post1 )
+                    renderBlogPost colors (Just post1) ( "Gabi", post1 )
                         |> Query.fromHtml
                         |> Query.find [ tag "a" ]
                         |> Query.has [ text "SEE POST" ]
@@ -43,7 +50,7 @@ suite =
         , describe "renderBlogStream"
             [ test "renders a list of blog posts" <|
                 \_ ->
-                    renderBlogStream Nothing sampleBlogStream
+                    renderBlogStream colors Nothing sampleBlogStream
                         |> Query.fromHtml
                         |> Query.findAll [ class "blog-post" ]
                         |> Query.count (Expect.equal <| List.length sampleBlogStream)
@@ -83,3 +90,8 @@ suite =
                         |> Event.expect ClearSelectedBlogPost
             ]
         ]
+
+
+colors : Dict String String
+colors =
+    authorColors sampleAuthors

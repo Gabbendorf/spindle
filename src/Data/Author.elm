@@ -1,6 +1,8 @@
 module Data.Author exposing (..)
 
-import Set exposing (Set)
+import Date exposing (Date, toTime)
+import HtmlParser
+import HtmlParser.Util
 
 
 type alias Author =
@@ -12,7 +14,7 @@ type alias Author =
 type alias BlogPost =
     { title : String
     , link : String
-    , date : String
+    , date : Date
     , content : String
     }
 
@@ -44,6 +46,8 @@ authorsToBlogStream authors =
     authors
         |> List.map authorToBlogStream
         |> List.concat
+        |> List.sortBy (\( _, post ) -> Date.toTime post.date)
+        |> List.reverse
 
 
 authorToBlogStream : Author -> List ( String, BlogPost )
@@ -51,8 +55,58 @@ authorToBlogStream author =
     List.map (\post -> ( author.name, post )) author.posts
 
 
-authorsList : List Author -> Set String
-authorsList authors =
-    authors
-        |> List.map .name
-        |> Set.fromList
+
+-- Trim Blog Post Text
+
+
+alphabeticalAuthors : List Author -> List Author
+alphabeticalAuthors authors =
+    List.sortBy .name authors
+
+
+formatBlogPost : List Author -> List Author
+formatBlogPost authors =
+    List.map formatAuthorPosts authors
+
+
+formatAuthorPosts : Author -> Author
+formatAuthorPosts author =
+    { author | posts = formatPosts author.posts }
+
+
+formatPosts : List BlogPost -> List BlogPost
+formatPosts posts =
+    List.map formatPost posts
+
+
+formatPost : BlogPost -> BlogPost
+formatPost post =
+    { post | content = formatPostContent post.content }
+
+
+formatPostContent : String -> String
+formatPostContent postContent =
+    postContent
+        |> extractTextFromHtml
+        |> limitWords 100
+        |> appendDots
+
+
+appendDots : String -> String
+appendDots text =
+    text ++ "..."
+
+
+extractTextFromHtml : String -> String
+extractTextFromHtml htmlString =
+    htmlString
+        |> HtmlParser.parse
+        |> HtmlParser.Util.textContent
+
+
+limitWords : Int -> String -> String
+limitWords n text =
+    text
+        |> String.words
+        |> List.take n
+        |> String.join " "

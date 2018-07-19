@@ -1,8 +1,9 @@
 module Request.Author exposing (..)
 
 import Data.Author exposing (..)
+import Date exposing (Date)
 import Http
-import Json.Decode exposing (Decoder, list, string)
+import Json.Decode as Json exposing (Decoder, list, string)
 import Json.Decode.Pipeline exposing (decode, required)
 
 
@@ -28,5 +29,20 @@ blogPostDecoder =
     decode BlogPost
         |> required "title" string
         |> required "link" string
-        |> required "pubDate" string
+        |> required "pubDate" dateDecoder
         |> required "content" string
+
+
+dateDecoder : Decoder Date
+dateDecoder =
+    string |> Json.andThen toDate
+
+
+toDate : String -> Decoder Date
+toDate dateString =
+    case Date.fromString dateString of
+        Ok date ->
+            Json.succeed date
+
+        Err err ->
+            Json.fail err

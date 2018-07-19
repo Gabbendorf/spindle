@@ -1,12 +1,15 @@
 module Update exposing (..)
 
+import Data.Author exposing (Author, BlogPost, alphabeticalAuthors, formatBlogPost)
 import Request.Author exposing (getAuthors)
 import Types exposing (..)
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( initialModel, getAuthors ReceiveAuthors )
+    ( initialModel
+    , getAuthors ReceiveAuthors
+    )
 
 
 initialModel : Model
@@ -41,7 +44,10 @@ update msg model =
             )
 
         ToggleAuthorsVisible ->
-            ( { model | authorsVisible = not model.authorsVisible, selectedBlogPost = Nothing }
+            ( { model
+                | authorsVisible = not model.authorsVisible
+                , selectedBlogPost = Nothing
+              }
             , Cmd.none
             )
 
@@ -61,7 +67,7 @@ update msg model =
             )
 
         ReceiveAuthors (Ok authors) ->
-            ( { model | authors = authors }
+            ( { model | authors = authors |> alphabeticalAuthors |> formatBlogPost }
             , Cmd.none
             )
 
