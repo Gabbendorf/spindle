@@ -11,7 +11,7 @@ suite : Test
 suite =
     describe "colors functions"
         [ describe "authorColors"
-            [ test "it assigns color in alphabetical order" <|
+            [ test "it assigns colors in order" <|
                 \_ ->
                     let
                         colors =
@@ -21,10 +21,10 @@ suite =
                             Expect.equal (Dict.get name colors) (Just expectedColor)
                     in
                     Expect.all
-                        [ correctColor "red" "Andrew"
-                        , correctColor "blue" "Gabi"
-                        , correctColor "green" "Katerina"
-                        , correctColor "red" "Laurent"
+                        [ correctColor "green" "Gabi"
+                        , correctColor "blue" "Andrew"
+                        , correctColor "red" "Katerina"
+                        , correctColor "green" "Laurent"
                         ]
                         colors
             ]
@@ -35,7 +35,7 @@ suite =
                         colors =
                             authorColors authors
                     in
-                    Expect.equal "red" (getAuthorColor colors "Andrew")
+                    Expect.equal "blue" (getAuthorColor colors "Andrew")
             , test "it returns an empty string for unknown author" <|
                 \_ ->
                     let

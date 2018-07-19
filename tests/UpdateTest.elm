@@ -84,6 +84,38 @@ suite =
                             update (ReceiveAuthors (Ok sampleAuthors)) initialModel
                     in
                     Expect.equal (List.length nextModel.authors) 3
+            , test "Formats received authors correctly" <|
+                \_ ->
+                    let
+                        ( nextModel, _ ) =
+                            update (ReceiveAuthors (Ok sampleAuthors)) initialModel
+
+                        expectedAuthors =
+                            sampleAuthors
+                                |> List.sortBy .name
+                                |> List.map .name
+
+                        actualAuthors =
+                            nextModel.authors
+                                |> List.map .name
+                    in
+                    Expect.equal expectedAuthors actualAuthors
+            , test "Formats received author posts correctly" <|
+                \_ ->
+                    let
+                        ( nextModel, _ ) =
+                            update (ReceiveAuthors (Ok sampleAuthors)) initialModel
+
+                        allPosts =
+                            nextModel.authors
+                                |> List.map .posts
+                                |> List.concat
+                                |> List.map .content
+
+                        allPostsEndWithDots =
+                            List.all (\p -> String.right 3 p == "...") allPosts
+                    in
+                    Expect.true "all posts end with dots" allPostsEndWithDots
             , test "Sets an api error if request fails" <|
                 \_ ->
                     let

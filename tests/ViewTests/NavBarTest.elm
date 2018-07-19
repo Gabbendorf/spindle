@@ -71,7 +71,7 @@ suite =
                         |> Query.findAll [ class "authors-list--author" ]
                         |> Query.first
                         |> Event.simulate Event.click
-                        |> Event.expect (SelectAuthor "Andrew")
+                        |> Event.expect (SelectAuthor "Gabi")
             , test "Authors render with correct colors" <|
                 \_ ->
                     let

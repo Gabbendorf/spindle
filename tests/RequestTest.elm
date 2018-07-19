@@ -1,6 +1,8 @@
 module RequestTest exposing (..)
 
 import Data.Author exposing (..)
+import Date
+import Date.Extra
 import Expect
 import Fuzz exposing (..)
 import Json.Decode exposing (decodeValue)
@@ -13,13 +15,13 @@ suite : Test
 suite =
     describe "Request.Author module"
         [ describe "blogPostDecoder"
-            [ fuzz4 string string string string "decodes blog post json correctly" <|
+            [ fuzz4 string string float string "decodes blog post json correctly" <|
                 \title link date content ->
                     let
                         blogPost =
                             { title = title
                             , link = link
-                            , date = date
+                            , date = Date.fromTime date
                             , content = content
                             }
 
@@ -58,11 +60,11 @@ blogPostEncoder post =
     Json.object
         [ ( "title", Json.string post.title )
         , ( "link", Json.string post.link )
-        , ( "pubDate", Json.string post.date )
+        , ( "pubDate", Json.string <| Date.Extra.toIsoString post.date )
         , ( "content", Json.string post.content )
         ]
 
 
 blogPostFuzzer : Fuzzer BlogPost
 blogPostFuzzer =
-    Fuzz.map4 BlogPost string string string string
+    Fuzz.map4 BlogPost string string (Fuzz.map Date.fromTime float) string
