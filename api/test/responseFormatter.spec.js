@@ -3,46 +3,48 @@ const responseFormatter = require("../src/authors/responseFormatter.js");
 const sampleMediumResponse = require("./testData/mediumResponse.js");
 const sampleJekyllResponse = require("./testData/jekyllResponse.js");
 
+const formattedMediumPost = {
+  title: "blog post",
+  link: "www.medium.com",
+  date: "Mon, 09 Jul 2018 15:19:30 GMT",
+  content: "blog post content"
+};
+
+const unformattedMediumPost = {
+  title: "blog post",
+  link: "www.medium.com",
+  pubDate: "Mon, 09 Jul 2018 15:19:30 GMT",
+  "content:encoded": "blog post content"
+};
+
+const formattedJekyllPost = {
+  title: "blog post",
+  link: "www.jekyll.com",
+  date: "Mon, 09 Jul 2018 15:19:30 GMT",
+  content: "blog post content"
+};
+
+const unformattedJekyllPost = {
+  title: "blog post",
+  link: "www.jekyll.com",
+  pubDate: "Mon, 09 Jul 2018 15:19:30 GMT",
+  content: "blog post content"
+};
+
 describe("responseFormatter", () => {
   describe("formatMediumItem", () => {
     it("converts medium json into the correct format", () => {
-      const expectedJson = {
-        title: "blog post",
-        link: "www.medium.com",
-        date: "Mon, 09 Jul 2018 15:19:30 GMT",
-        content: "blog post content"
-      };
-
-      const rawJson = {
-        title: "blog post",
-        link: "www.medium.com",
-        pubDate: "Mon, 09 Jul 2018 15:19:30 GMT",
-        "content:encoded": "blog post content"
-      };
-
-      const actualJson = responseFormatter.formatMediumItem(rawJson);
-      expect(expectedJson).to.deep.equal(actualJson);
+      const actualJson = responseFormatter.formatMediumItem(unformattedMediumPost);
+      
+      expect(actualJson).to.deep.equal(formattedMediumPost);
     });
   });
 
   describe("formatJekyllItem", () => {
     it("converts Jekyll json into the correct format", () => {
-      const expectedJson = {
-        title: "blog post",
-        link: "www.jekyll.com",
-        date: "Mon, 09 Jul 2018 15:19:30 GMT",
-        content: "blog post content"
-      };
-
-      const rawJson = {
-        title: "blog post",
-        link: "www.jekyll.com",
-        pubDate: "Mon, 09 Jul 2018 15:19:30 GMT",
-        content: "blog post content"
-      };
-
-      const actualJson = responseFormatter.formatJekyllItem(rawJson);
-      expect(expectedJson).to.deep.equal(actualJson);
+      const actualJson = responseFormatter.formatJekyllItem(unformattedJekyllPost);
+      
+      expect(actualJson).to.deep.equal(formattedJekyllPost);
     });
   });
 
@@ -79,7 +81,7 @@ describe("responseFormatter", () => {
   });
 
   describe("formatFeeds", () => {
-    it("formats an array of feed responses with config, to correct api response format", () => {
+    it("formatted feeds keep original author of feed responses", () => {
       const feedResponses = [
         { source: "medium", author: "Gabi", feed: sampleMediumResponse },
         { source: "medium", author: "Andrew", feed: sampleMediumResponse },
@@ -90,7 +92,20 @@ describe("responseFormatter", () => {
 
       formattedFeeds.forEach((response, i) => {
         expect(response.author).to.eq(feedResponses[i].author);
-        response.posts.forEach(post => {
+      });
+    });
+
+    it("all posts from different sources should have the same keys", () => {
+      const feedResponses = [
+        { source: "medium", author: "Gabi", feed: sampleMediumResponse },
+        { source: "medium", author: "Andrew", feed: sampleMediumResponse },
+        { source: "jekyll", author: "Laurent", feed: sampleJekyllResponse }
+      ];
+
+      const formattedFeeds = responseFormatter.formatFeeds(feedResponses);
+
+      formattedFeeds.forEach(({ posts }) => {
+        posts.forEach(post => {
           expect(post).to.have.keys("title", "link", "date", "content");
         });
       });

@@ -3,7 +3,7 @@ function formatMediumItem(rawJson) {
     title: rawJson.title,
     link: rawJson.link,
     date: rawJson.pubDate,
-    content: rawJson["content:encoded"]
+    content: rawJson["content:encoded"],
   };
 }
 
@@ -12,7 +12,7 @@ function formatJekyllItem(rawJson) {
     title: rawJson.title,
     link: rawJson.link,
     date: rawJson.pubDate,
-    content: rawJson.content
+    content: rawJson.content,
   };
 }
 
@@ -28,7 +28,7 @@ function formatFeeds(feedResponses) {
   return feedResponses.map(response => {
     return {
       author: response.author,
-      posts: formatFeed(response.source, response.feed.items)
+      posts: formatFeed(response.source, response.feed.items),
     };
   });
 }
@@ -37,5 +37,5 @@ module.exports = {
   formatMediumItem,
   formatJekyllItem,
   formatFeed,
-  formatFeeds
+  formatFeeds,
 };
