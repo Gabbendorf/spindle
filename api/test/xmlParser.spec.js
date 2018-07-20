@@ -46,7 +46,6 @@ describe("xmlParser", () => {
       ];
 
       const responses = await xmlParser.parseFeeds(parserStub, feedConfigs);
-
       expect(responses.length).to.eq(2);
       responses.forEach(response => {
         expect(response.feed).to.deep.equal(sampleMediumResponse);
