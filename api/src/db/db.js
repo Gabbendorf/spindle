@@ -9,29 +9,30 @@ module.exports = class Db {
     const records = await this.executeQuery('SELECT * FROM authors;');
     return records.map(row => {
       return {
-        id: row.id,
+        author: row.first_name,
         source: row.blog_source,
         url: row.blog_url,
       };
     });
   }
 
-  async addPostsForAuthor(firstName, secondName, posts) {
-    const author = await this.executeQuery(
-      `SELECT id FROM authors WHERE first_name = '${firstName}' AND second_name = '${secondName}';`,
-    );
+  async addPosts(posts) {
+    const queries = await Promise.all(posts.map(async (post) => {
+      return this.insertPostQuery(post);
+    }));
+    const query = `${queries.join(' ')};`;
 
-    const queryValues = posts
-      .map(
-        post =>
-          `('${author[0].id}', '${post.title}', '${post.link}', '${
-            post.content
-          }', '${post.date}')`,
-      )
-      .join(', ');
-    const insert = `INSERT INTO posts (author_id, title, link, content, date) VALUES`;
-    const query = `${insert} ${queryValues} ON CONFLICT DO NOTHING;`;
     await this.executeQuery(query);
+  }
+
+  async insertPostQuery(post) {
+    const author = await this.executeQuery(
+      `SELECT id FROM authors WHERE first_name = '${post.author}';`,
+    );
+    const authorId = author[0].id;
+    const fields = `(author_id, title, link, content, date)`;
+    const values = `('${authorId}', '${post.title}', '${post.link}', '${ post.content }', '${post.date}')`;
+    return `INSERT INTO posts ${fields} VALUES ${values} ON CONFLICT DO NOTHING;`;
   }
 
   async executeQuery(query) {

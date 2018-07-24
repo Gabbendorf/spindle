@@ -53,13 +53,14 @@ describe('db class', () => {
     const authors = await db.getAuthors();
 
     expect(authors).to.deep.equal([
-      {source: 'medium', id: 1, url: 'gabis-url'},
-      {source: 'jekyll', id: 2, url: 'andrews-url'},
+      {source: 'medium', author: 'gabi', url: 'gabis-url'},
+      {source: 'jekyll', author: 'andrew', url: 'andrews-url'},
     ]);
   });
 
   describe('adding a post', () => {
     const post1 = {
+      author: 'gabi',
       title: 'Spreading the word',
       content: 'some content',
       date: 38853974,
@@ -67,33 +68,32 @@ describe('db class', () => {
     };
 
     const post2 = {
-      title: 'First time with Elixir',
+      author: 'andrew',
+      title: 'Earth to Mercury',
       content: 'some content',
       date: 47397935,
-      link: 'gabis_posts.com',
+      link: 'andrews_posts.com',
     };
 
     beforeEach(async () => {
       await addAuthor('gabi', 'medas', 'medium');
+      await addAuthor('andrew', 'macmurray', 'jekyll');
     });
 
     it('inserts author posts in posts table', async () => {
-      await db.addPostsForAuthor('gabi', 'medas', [post1, post2]);
+      await db.addPosts([post1, post2]);
 
       const posts = await executeQuery('SELECT * FROM posts;');
-      expect(posts).to.deep.equal([
-        {...post1, id: 1, author_id: 1},
-        {...post2, id: 2, author_id: 1},
-      ]);
+      expect(posts.length).to.eq(2)
+      expect(posts[0].title).to.eq(post1.title)
+      expect(posts[1].title).to.eq(post2.title)
     });
 
     it('doesnt insert a duplicate post', async () => {
-      await db.addPostsForAuthor('gabi', 'medas', [post1, post1]);
+      await db.addPosts([post1, post1]);
       
       const posts = await executeQuery('SELECT * FROM posts;');
-      expect(posts).to.deep.equal([
-        {...post1, id: 1, author_id: 1},
-      ]);
+      expect(posts.length).to.eq(1)
     });
   });
 
