@@ -29,13 +29,15 @@ module.exports = class Db {
           }', '${post.date}')`,
       )
       .join(', ');
-    const query = `INSERT INTO posts (author_id, title, link, content, date) VALUES ${queryValues};`;
+    const insert = `INSERT INTO posts (author_id, title, link, content, date) VALUES`;
+    const query = `${insert} ${queryValues} ON CONFLICT DO NOTHING;`;
     await this.executeQuery(query);
   }
 
   async executeQuery(query) {
+    let client;
     try {
-      const client = new Client(this.config);
+      client = new Client(this.config);
       await client.connect();
       const result = await client.query(query);
       await client.end();

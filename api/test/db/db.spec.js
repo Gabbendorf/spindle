@@ -58,15 +58,14 @@ describe('db class', () => {
     ]);
   });
 
-  it('inserts author posts in posts table', async () => {
-    await addAuthor('gabi', 'medas', 'medium');
-
+  describe('adding a post', () => {
     const post1 = {
       title: 'Spreading the word',
       content: 'some content',
       date: 38853974,
       link: 'gabis_posts.com',
     };
+
     const post2 = {
       title: 'First time with Elixir',
       content: 'some content',
@@ -74,13 +73,28 @@ describe('db class', () => {
       link: 'gabis_posts.com',
     };
 
-    await db.addPostsForAuthor('gabi', 'medas', [post1, post2]);
+    beforeEach(async () => {
+      await addAuthor('gabi', 'medas', 'medium');
+    });
 
-    const posts = await executeQuery('SELECT * FROM posts;');
-    expect(posts).to.deep.equal([
-      {...post1, id: 1, author_id: 1},
-      {...post2, id: 2, author_id: 1},
-    ]);
+    it('inserts author posts in posts table', async () => {
+      await db.addPostsForAuthor('gabi', 'medas', [post1, post2]);
+
+      const posts = await executeQuery('SELECT * FROM posts;');
+      expect(posts).to.deep.equal([
+        {...post1, id: 1, author_id: 1},
+        {...post2, id: 2, author_id: 1},
+      ]);
+    });
+
+    it('doesnt insert a duplicate post', async () => {
+      await db.addPostsForAuthor('gabi', 'medas', [post1, post1]);
+      
+      const posts = await executeQuery('SELECT * FROM posts;');
+      expect(posts).to.deep.equal([
+        {...post1, id: 1, author_id: 1},
+      ]);
+    });
   });
 
   async function addAuthor(firstName, lastName, source) {
@@ -92,8 +106,9 @@ describe('db class', () => {
   }
 
   async function executeQuery(query) {
+    let client;
     try {
-      const client = new Client(dbConfig);
+      client = new Client(dbConfig);
       await client.connect();
       const result = await client.query(query);
       await client.end();
