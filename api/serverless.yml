@@ -5,13 +5,10 @@ provider:
   runtime: nodejs8.10
 
 functions:
-  authors:
-    handler: src/authors/index.handler
+  scrapePosts:
+    handler: src/handlers/scrapePosts/index.handler
     events:
-      - http:
-          path: authors
-          method: get
-          cors: true
-
+      - schedule: cron(0 12 * * ? *)
+        
 plugins:
   - serverless-offline
