@@ -1,5 +1,5 @@
 const {expect} = require('chai');
-const responseFormatter = require('../../src/lib/rss/responseFormatter.js');
+const responseFormatter = require('../../src/rss/responseFormatter.js');
 const sampleMediumResponse = require('../testData/mediumResponse.js');
 const sampleJekyllResponse = require('../testData/jekyllResponse.js');
 

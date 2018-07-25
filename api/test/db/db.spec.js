@@ -1,7 +1,7 @@
 const {expect} = require('chai');
 const {Client} = require('pg');
-const Db = require('../../src/lib/db/db.js');
-const {addTables} = require('../../src/lib/db/schema.js');
+const Db = require('../../src/db/db.js');
+const {addTables} = require('../../src/db/schema.js');
 
 const dbConfig = {
   host: 'localhost',

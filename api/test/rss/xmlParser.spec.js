@@ -1,5 +1,5 @@
 const { expect } = require("chai");
-const xmlParser = require("../../src/lib/rss/xmlParser.js");
+const xmlParser = require("../../src/rss/xmlParser.js");
 const sampleMediumResponse = require("../testData/mediumResponse.js");
 
 const parserStub = {
