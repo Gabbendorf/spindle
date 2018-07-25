@@ -5,9 +5,10 @@ const Parser = require('rss-parser');
 
 module.exports.handler = (event, context, callback) => {
   const connectionConfig = {
-    host: 'localhost',
-    user: 'postgres',
-    database: 'spindle_dev',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD
   };
 
   const db = new Db(connectionConfig);

@@ -6,4 +6,7 @@ elm-stuff
 
 frontend/public/elm.js
 
+api/dev.yml
+api/prod.yml
+
 .DS_Store
