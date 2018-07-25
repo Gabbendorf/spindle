@@ -13,7 +13,7 @@ const addTables = `
     title text NOT NULL,
     link text NOT NULL,
     content text NOT NULL,
-    date integer NOT NULL,
+    date date NOT NULL,
     UNIQUE (author_id, title)
   );
 `

@@ -44,7 +44,7 @@ describe('db class', () => {
       author: 'gabi',
       title: 'Spreading the word',
       content: 'some content',
-      date: 38853974,
+      date: "Fri, 29 Jun 2018 11:21:29 GMT",
       link: 'gabis_posts.com',
     };
 
@@ -52,7 +52,7 @@ describe('db class', () => {
       author: 'andrew',
       title: 'Earth to Mercury',
       content: 'some content',
-      date: 47397935,
+      date: "Fri, 29 Jun 2018 11:21:29 GMT",
       link: 'andrews_posts.com',
     };
 
