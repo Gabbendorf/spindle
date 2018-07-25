@@ -1,32 +1,13 @@
 const {expect} = require('chai');
 const {Client} = require('pg');
-const Db = require('../../src/db/db.js');
+const Db = require('../../src/lib/db/db.js');
+const {addTables} = require('../../src/lib/db/schema.js');
 
 const dbConfig = {
   host: 'localhost',
   user: 'postgres',
   database: 'spindle_test',
 };
-
-const addTables = `
-  CREATE TABLE IF NOT EXISTS authors(
-    id SERIAL PRIMARY KEY,
-    first_name text NOT NULL,
-    second_name text NOT NULL,
-    blog_url text NOT NULL,
-    blog_source text NOT NULL
-  );
-
-  CREATE TABLE IF NOT EXISTS posts(
-    id SERIAL PRIMARY KEY,
-    author_id integer REFERENCES authors (id) NOT NULL,
-    title text NOT NULL,
-    link text NOT NULL,
-    content text NOT NULL,
-    date integer NOT NULL,
-    UNIQUE (author_id, title)
-  );
-`;
 
 const deleteTables = `
   DROP TABLE IF EXISTS posts;
@@ -84,16 +65,16 @@ describe('db class', () => {
       await db.addPosts([post1, post2]);
 
       const posts = await executeQuery('SELECT * FROM posts;');
-      expect(posts.length).to.eq(2)
-      expect(posts[0].title).to.eq(post1.title)
-      expect(posts[1].title).to.eq(post2.title)
+      expect(posts.length).to.eq(2);
+      expect(posts[0].title).to.eq(post1.title);
+      expect(posts[1].title).to.eq(post2.title);
     });
 
     it('doesnt insert a duplicate post', async () => {
       await db.addPosts([post1, post1]);
-      
+
       const posts = await executeQuery('SELECT * FROM posts;');
-      expect(posts.length).to.eq(1)
+      expect(posts.length).to.eq(1);
     });
   });
 
