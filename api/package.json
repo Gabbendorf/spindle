@@ -4,7 +4,7 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "test": "mocha test/** --reporter nyan"
+    "test": "mocha test/ --recursive --reporter nyan"
   },
   "author": "",
   "license": "ISC",
