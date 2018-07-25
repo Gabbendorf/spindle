@@ -23,6 +23,31 @@ module.exports = class Db {
     await this._executeQuery(query);
   }
 
+  async getAuthorPosts() {
+    const authors = await this.getAuthors();
+    const posts = await this.getPosts();
+    return authors.map(author => {
+      return {
+        author: author.author,
+        posts: posts
+        .filter(post => post.first_name === author.author)
+        .map(({title, link, content, date }) => {
+          return { title, link, content, date: date.toString() };
+        }),
+      };
+    });
+  }
+
+  async getPosts() {
+    const query = `SELECT
+      posts.title, posts.content, posts.date, posts.link, authors.first_name
+      FROM posts
+      INNER JOIN authors
+      ON posts.author_id = authors.id;`;
+
+    return this._executeQuery(query);
+  }
+
   _insertPostQuery({author, title, link, content, date}) {
     const getAuthorId = `SELECT id FROM authors WHERE first_name = '${author}'`;
     const fields = `(author_id, title, link, content, date)`;

@@ -20,6 +20,9 @@ describe('db class', () => {
   beforeEach(async () => {
     await executeQuery(deleteTables);
     await executeQuery(addTables);
+    await addAuthor('gabi', 'medas', 'medium');
+    await addAuthor('andrew', 'macmurray', 'jekyll');
+
     db = new Db(dbConfig);
   });
 
@@ -28,9 +31,6 @@ describe('db class', () => {
   });
 
   it('gets list of authors from database', async () => {
-    await addAuthor('gabi', 'medas', 'medium');
-    await addAuthor('andrew', 'macmurray', 'jekyll');
-
     const authors = await db.getAuthors();
 
     expect(authors).to.deep.equal([
@@ -44,7 +44,7 @@ describe('db class', () => {
       author: 'gabi',
       title: 'Spreading the word',
       content: 'some content',
-      date: "Fri, 29 Jun 2018 11:21:29 GMT",
+      date: 'Fri, 29 Jun 2018 11:21:29 GMT',
       link: 'gabis_posts.com',
     };
 
@@ -52,14 +52,9 @@ describe('db class', () => {
       author: 'andrew',
       title: 'Earth to Mercury',
       content: 'some content',
-      date: "Fri, 29 Jun 2018 11:21:29 GMT",
+      date: 'Fri, 29 Jun 2018 11:21:29 GMT',
       link: 'andrews_posts.com',
     };
-
-    beforeEach(async () => {
-      await addAuthor('gabi', 'medas', 'medium');
-      await addAuthor('andrew', 'macmurray', 'jekyll');
-    });
 
     it('inserts author posts in posts table', async () => {
       await db.addPosts([post1, post2]);
@@ -75,6 +70,68 @@ describe('db class', () => {
 
       const posts = await executeQuery('SELECT * FROM posts;');
       expect(posts.length).to.eq(1);
+    });
+  });
+
+  describe('getAuthorPosts', () => {
+    it('gets an array of authors with their posts', async () => {
+      const post1 = {
+        author: 'gabi',
+        title: 'Spreading the word',
+        content: 'some content',
+        date: 'Fri, 29 Jun 2018 11:21:29 GMT',
+        link: 'gabis_posts.com',
+      };
+
+      const post2 = {
+        author: 'andrew',
+        title: 'Earth to Mercury',
+        content: 'some content',
+        date: 'Fri, 29 Jun 2018 11:21:29 GMT',
+        link: 'andrews_posts.com',
+      };
+
+      const post3 = {
+        author: 'andrew',
+        title: 'Gradle stuff',
+        content: 'some content',
+        date: 'Fri, 29 Jun 2018 11:21:29 GMT',
+        link: 'andrews_posts.com',
+      };
+      await db.addPosts([post1, post2, post3]);
+
+      const posts = await db.getAuthorPosts();
+
+      expect(posts).to.deep.equal([
+        {
+          author: 'gabi',
+          posts: [
+            {
+              title: 'Spreading the word',
+              content: 'some content',
+              date: 'Fri Jun 29 2018 00:00:00 GMT+0100 (BST)',
+              link: 'gabis_posts.com',
+            },
+          ],
+        },
+        {
+          author: 'andrew',
+          posts: [
+            {
+              title: 'Earth to Mercury',
+              content: 'some content',
+              date: 'Fri Jun 29 2018 00:00:00 GMT+0100 (BST)',
+              link: 'andrews_posts.com',
+            },
+            {
+              title: 'Gradle stuff',
+              content: 'some content',
+              date: 'Fri Jun 29 2018 00:00:00 GMT+0100 (BST)',
+              link: 'andrews_posts.com',
+            },
+          ],
+        },
+      ]);
     });
   });
 
