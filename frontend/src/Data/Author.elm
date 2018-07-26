@@ -41,6 +41,17 @@ filterPostsByAuthor selectedAuthor authors =
             authorsToBlogStream authors
 
 
+statsForAuthor : Date -> Author -> ( Int, Int )
+statsForAuthor today { posts } =
+    let
+        statForRange n =
+            posts
+                |> List.filter (postWithinDateRange n today)
+                |> List.length
+    in
+    ( statForRange 7, statForRange 30 )
+
+
 authorsToBlogStream : List Author -> List ( String, BlogPost )
 authorsToBlogStream authors =
     authors
@@ -53,6 +64,25 @@ authorsToBlogStream authors =
 authorToBlogStream : Author -> List ( String, BlogPost )
 authorToBlogStream author =
     List.map (\post -> ( author.name, post )) author.posts
+
+
+
+-- BlogPost Date predicates
+
+
+postWithinDateRange : Int -> Date -> BlogPost -> Bool
+postWithinDateRange range endDate post =
+    let
+        timeDelta =
+            toFloat <| range * 24 * 60 * 60 * 1000
+
+        endTime =
+            Date.toTime endDate
+
+        postTime =
+            Date.toTime post.date
+    in
+    postTime > endTime - timeDelta
 
 
 

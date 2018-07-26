@@ -50,7 +50,7 @@ suite =
 authorEncoder : Author -> Json.Value
 authorEncoder author =
     Json.object
-        [ ( "apprentice", Json.string author.name )
+        [ ( "author", Json.string author.name )
         , ( "posts", Json.list <| List.map blogPostEncoder author.posts )
         ]
 
@@ -60,7 +60,7 @@ blogPostEncoder post =
     Json.object
         [ ( "title", Json.string post.title )
         , ( "link", Json.string post.link )
-        , ( "pubDate", Json.string <| Date.Extra.toIsoString post.date )
+        , ( "date", Json.string <| Date.Extra.toIsoString post.date )
         , ( "content", Json.string post.content )
         ]
 
