@@ -1,6 +1,7 @@
 module Types exposing (..)
 
 import Data.Author exposing (..)
+import Date exposing (Date)
 import Http
 
 
@@ -10,6 +11,7 @@ type alias Model =
     , authorsVisible : Bool
     , authors : List Author
     , authorsApiError : Maybe String
+    , today : Date
     }
 
 

@@ -1,24 +1,27 @@
 module Update exposing (..)
 
 import Data.Author exposing (Author, BlogPost, alphabeticalAuthors, formatBlogPost)
+import Date
 import Request.Author exposing (getAuthors)
+import Time exposing (Time)
 import Types exposing (..)
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( initialModel
+init : Time -> ( Model, Cmd Msg )
+init time =
+    ( initialModel time
     , getAuthors ReceiveAuthors
     )
 
 
-initialModel : Model
-initialModel =
+initialModel : Time -> Model
+initialModel today =
     { selectedAuthor = Nothing
     , selectedBlogPost = Nothing
     , authorsVisible = False
     , authors = []
     , authorsApiError = Nothing
+    , today = Date.fromTime today
     }
 
 
