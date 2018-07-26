@@ -16,8 +16,6 @@ const addTables = `
     date date NOT NULL,
     UNIQUE (author_id, title)
   );
-`
+`;
 
-module.exports = {
-  addTables
-}
+module.exports = {addTables};

@@ -30,10 +30,10 @@ module.exports = class Db {
       return {
         author: author.author,
         posts: posts
-        .filter(post => post.first_name === author.author)
-        .map(({title, link, content, date }) => {
-          return { title, link, content, date: date.toString() };
-        }),
+          .filter(post => post.first_name === author.author)
+          .map(({title, link, content, date}) => {
+            return {title, link, content, date: date.toString()};
+          }),
       };
     });
   }
