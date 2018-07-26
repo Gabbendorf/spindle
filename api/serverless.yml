@@ -10,6 +10,13 @@ functions:
     handler: src/handlers/scrapePosts/index.handler
     events:
       - schedule: cron(0 12 * * ? *)
+
+  getPosts:
+    handler: src/handlers/getPosts/index.handler
+    events:
+      - http:
+          path: posts
+          method: get
         
 plugins:
   - serverless-offline
