@@ -14,7 +14,7 @@ getAuthors msg =
 
 authorsUrl : String
 authorsUrl =
-    "http://localhost:3000/posts"
+    "https://0ibczsniu9.execute-api.us-east-1.amazonaws.com/prod/posts"
 
 
 authorDecoder : Decoder Author
