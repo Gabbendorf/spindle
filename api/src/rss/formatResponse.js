@@ -26,11 +26,10 @@ function convertFeedToPosts(feedSource, feedItems, author) {
   }
 }
 
-function convertFeedsToPosts(feedResponses) {
+module.exports = function convertFeedsToPosts(feedResponses) {
   return feedResponses.reduce((acc, response) => {
     const posts = convertFeedToPosts(response.source, response.feed.items, response.author);
     return acc.concat(posts);
   }, []);
 }
 
-module.exports = {convertFeedsToPosts};

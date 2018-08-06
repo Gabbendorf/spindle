@@ -27,13 +27,13 @@ describe('scrapePosts', () => {
 
     feedManagerSpy = {
       parseFeedsCalledWith: undefined,
-      convertFeedsToPostsCalledWith: undefined,
+      formatResponseCalledWith: undefined,
       parseFeeds: function(arg) {
         this.parseFeedsCalledWith = arg;
         return Promise.resolve(feedsStub);
       },
-      convertFeedsToPosts: function(arg) {
-        this.convertFeedsToPostsCalledWith = arg;
+      formatResponse: function(arg) {
+        this.formatResponseCalledWith = arg;
         return Promise.resolve(postsStub);
       },
     };
@@ -54,7 +54,7 @@ describe('scrapePosts', () => {
   it('converts the feeds to posts via the feedManager', async () => {
     await scrapePosts(dbSpy, feedManagerSpy);
 
-    expect(feedManagerSpy.convertFeedsToPostsCalledWith).to.eq(
+    expect(feedManagerSpy.formatResponseCalledWith).to.eq(
       feedsStub,
     );
   });

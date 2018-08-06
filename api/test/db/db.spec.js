@@ -14,7 +14,7 @@ const deleteTables = `
   DROP TABLE IF EXISTS authors;
 `;
 
-describe('db class', () => {
+describe('db', () => {
   let db;
 
   beforeEach(async () => {
@@ -65,7 +65,7 @@ describe('db class', () => {
       expect(posts[1].title).to.eq(post2.title);
     });
 
-    it('doesnt insert a duplicate post', async () => {
+    it('does not insert duplicate posts', async () => {
       await db.addPosts([post1, post1]);
 
       const posts = await executeQuery('SELECT * FROM posts;');

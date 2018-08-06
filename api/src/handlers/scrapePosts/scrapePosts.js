@@ -5,6 +5,6 @@ module.exports = function scrapePosts(db, feedManager) {
   return db
     .getAuthors()
     .then(authors => feedManager.parseFeeds(authors))
-    .then(feeds => feedManager.convertFeedsToPosts(feeds))
+    .then(feeds => feedManager.formatResponse(feeds))
     .then(posts => db.addPosts(posts));
 };

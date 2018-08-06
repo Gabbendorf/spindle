@@ -1,5 +1,5 @@
 const {parseFeeds} = require('./xmlParser.js');
-const {convertFeedsToPosts} = require('./responseFormatter.js');
+const formatResponse = require('./formatResponse.js');
 
 module.exports = class FeedManager {
   constructor(rssParser) {
@@ -10,7 +10,7 @@ module.exports = class FeedManager {
     return parseFeeds(this._rssParser, authors);
   }
 
-  convertFeedsToPosts(feeds) {
-    return convertFeedsToPosts(feeds);
+  formatResponse(feeds) {
+    return formatResponse(feeds);
   }
 };

@@ -1,9 +1,9 @@
 const {expect} = require('chai');
-const responseFormatter = require('../../src/rss/responseFormatter.js');
+const formatResponse = require('../../src/rss/formatResponse.js');
 const sampleMediumResponse = require('../testData/mediumResponse.js');
 const sampleJekyllResponse = require('../testData/jekyllResponse.js');
 
-describe('responseFormatter', () => {
+describe('formatResponse', () => {
   describe('formatFeeds', () => {
     it('formats feed into common post structure', () => {
       const feedResponses = [
@@ -12,7 +12,7 @@ describe('responseFormatter', () => {
         {source: 'jekyll', author: 'Laurent', feed: sampleJekyllResponse},
       ];
 
-      const formattedFeeds = responseFormatter.convertFeedsToPosts(
+      const formattedFeeds = formatResponse(
         feedResponses,
       );
 
