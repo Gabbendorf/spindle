@@ -7,6 +7,15 @@ ul {
   padding: 0;
 }
 
+th {
+  text-align: left;
+  padding: 5px 15px;
+}
+
+td {
+  padding: 2px 15px;
+}
+
 /* Utilities  */
 
 .sans-serif {
