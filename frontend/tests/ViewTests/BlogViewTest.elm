@@ -70,7 +70,7 @@ suite =
         , describe "renderBlogPostContent"
             [ test "renders hidden content when visibility set to hidden" <|
                 \_ ->
-                    renderBlogPostContent False post1
+                    renderBlogPostContent "red" False post1
                         |> Query.fromHtml
                         |> Query.findAll [ class "post-content" ]
                         |> Query.count (Expect.equal 0)
@@ -78,13 +78,13 @@ suite =
         , describe "renderContentVisibilityButton"
             [ test "it selects blog post if content not visible" <|
                 \_ ->
-                    renderContentVisibilityButton False post1
+                    renderContentVisibilityButton "red" False post1
                         |> Query.fromHtml
                         |> Event.simulate Event.click
                         |> Event.expect (SelectBlogPost post1)
             , test "it clears selected blog post if content is visible" <|
                 \_ ->
-                    renderContentVisibilityButton True post1
+                    renderContentVisibilityButton "red" True post1
                         |> Query.fromHtml
                         |> Event.simulate Event.click
                         |> Event.expect ClearSelectedBlogPost
