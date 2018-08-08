@@ -7,7 +7,6 @@ ul {
   padding: 0;
 }
 
-
 /* Utilities  */
 
 .sans-serif {
@@ -18,21 +17,19 @@ ul {
   font-family: Vollkorn;
 }
 
-
 /* Colors */
 
 .red {
-  color: #FF7C7C;
+  color: #ff7c7c;
 }
 
 .blue {
-  color: #7CC0FF;
+  color: #7cc0ff;
 }
 
 .green {
-  color: #8EDAA2;
+  color: #8edaa2;
 }
-
 
 /* Navigation */
 
@@ -65,7 +62,6 @@ ul {
   cursor: pointer;
 }
 
-
 /* Page */
 
 .page-container {
@@ -73,7 +69,6 @@ ul {
   margin: 0 auto;
   padding: 0 20px;
 }
-
 
 /* Blog Posts  */
 
@@ -99,14 +94,14 @@ ul {
   margin: 0;
   letter-spacing: 3px;
   font-size: 18px;
+  cursor: pointer;
 }
 
 .blog-post--date {
-  color: #BCBCBC;
+  color: #bcbcbc;
   font-size: 14px;
   letter-spacing: 0.2px;
 }
-
 
 /* Blog Post Content */
 
@@ -115,6 +110,7 @@ ul {
   padding: 0;
   border: none;
   outline: 0;
+  cursor: pointer;
 }
 
 .blog-post-content--link {

@@ -1,0 +1,20 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "handler.js",
+  "scripts": {
+    "test": "mocha test/ --recursive --reporter nyan"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "serverless-offline": "^3.25.6"
+  },
+  "dependencies": {
+    "pg": "^7.4.3",
+    "rss-parser": "^3.4.2"
+  }
+}
