@@ -1,5 +1,3 @@
-const connectionConfig = require('../connectionConfig.js');
-const {Client} = require('pg');
 const authors = [
   {
     source: 'medium',
@@ -41,8 +39,8 @@ const authors = [
     source: 'medium',
     first_name: 'Marion',
     second_name: 'LV',
-    url: 'https://medium.com/feed/@codeidoscope'
-  }
+    url: 'https://medium.com/feed/@codeidoscope',
+  },
 ];
 
 const deleteExistingAuthorsQuery = `DELETE FROM authors`;
@@ -56,17 +54,7 @@ const addAuthorsQuery = `
   VALUES ${authorsValues};
 `;
 
-async function seedAuthors() {
-  try {
-    await client.connect();
-    await client.query(deleteExistingAuthorsQuery);
-    await client.query(addAuthorsQuery);
-    await client.end();
-    console.log('added authors');
-  } catch (err) {
-    console.log(err);
-    await client.end();
-  }
-}
-
-seedAuthors();
+module.exports = {
+  deleteExistingAuthorsQuery,
+  addAuthorsQuery,
+};
