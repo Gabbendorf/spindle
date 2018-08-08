@@ -6,20 +6,7 @@ import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, target)
 import Html.Events exposing (onClick)
-import Svg exposing (Svg)
-import Svg.Attributes
-    exposing
-        ( fill
-        , fillRule
-        , points
-        , stroke
-        , strokeLinecap
-        , strokeLinejoin
-        , strokeWidth
-        , transform
-        , viewBox
-        , width
-        )
+import Icons.Chevron exposing (chevron)
 import Types exposing (..)
 
 
@@ -163,15 +150,15 @@ renderDate date =
 
 renderAllAuthorStats : Model -> Html Msg
 renderAllAuthorStats model =
-    table [ class "stats sans-serif" ] [ renderAuthorStatsHeader, renderTableBody model ]
+    table [ class "stats sans-serif" ]
+        [ renderAuthorStatsHeader
+        , renderTableBody model
+        ]
 
 
 renderTableBody : Model -> Html Msg
 renderTableBody model =
-    tbody [] <|
-        List.map
-            (renderAuthorStats model.today)
-            model.authors
+    tbody [] <| List.map (renderAuthorStats model.today) model.authors
 
 
 renderAuthorStatsHeader : Html Msg
@@ -223,29 +210,3 @@ assignColor index authorName =
         ( authorName, "blue" )
     else
         ( authorName, "red" )
-
-
-
--- Icons
-
-
-chevron : String -> Svg msg
-chevron color =
-    Svg.svg
-        [ viewBox "-1 0 21 17"
-        , width "100%"
-        ]
-        [ Svg.g
-            [ Svg.Attributes.class <| "chevron " ++ color
-            , fill "none"
-            , fillRule "evenodd"
-            , stroke "#FF7C7C"
-            , strokeWidth "1.5px"
-            , strokeLinecap "round"
-            , strokeLinejoin "round"
-            , transform "translate(0 1)"
-            ]
-            [ Svg.polyline [ points "4.5 19.5 13.5 10.49 4.5 1.5", transform "rotate(90 9 10.5)" ] []
-            , Svg.polyline [ points "4.5 13.5 13.5 4.49 4.5 -4.5", transform "rotate(90 9 4.5)" ] []
-            ]
-        ]
