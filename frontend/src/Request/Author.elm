@@ -14,13 +14,13 @@ getAuthors msg =
 
 authorsUrl : String
 authorsUrl =
-    "https://irctkncj7d.execute-api.us-east-1.amazonaws.com/dev/apprentice-blogs"
+    "https://0ibczsniu9.execute-api.us-east-1.amazonaws.com/prod/posts"
 
 
 authorDecoder : Decoder Author
 authorDecoder =
     decode Author
-        |> required "apprentice" string
+        |> required "author" string
         |> required "posts" (list blogPostDecoder)
 
 
@@ -29,7 +29,7 @@ blogPostDecoder =
     decode BlogPost
         |> required "title" string
         |> required "link" string
-        |> required "pubDate" dateDecoder
+        |> required "date" dateDecoder
         |> required "content" string
 
 

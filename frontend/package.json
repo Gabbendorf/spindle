@@ -8,9 +8,10 @@
   },
   "scripts": {
     "dev": "elm-live src/Main.elm --output=public/elm.js --dir=public --open --debug --pushstate",
+    "test": "elm test",
     "build": "elm-make src/Main.elm --output=public/elm.js",
     "s3:upload": "aws s3 sync public/ s3://spindle-frontend/",
-    "deploy": "npm run build && npm run deploy"
+    "deploy": "npm run build && npm run s3:upload"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
   },
   "homepage": "https://github.com/Gabbendorf/spindle#readme",
   "devDependencies": {
-    "elm-live": "^2.7.5"
+    "elm-live": "^2.7.5",
+    "elm-test": "^0.18.12"
   }
 }

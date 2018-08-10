@@ -12,6 +12,7 @@ initialModel =
     , authorsVisible = False
     , authors = sampleAuthors
     , authorsApiError = Nothing
+    , today = Date.fromTime 0
     }
 
 

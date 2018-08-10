@@ -4,7 +4,10 @@
   "description": "",
   "main": "handler.js",
   "scripts": {
-    "test": "mocha test/ --recursive --reporter nyan"
+    "test": "mocha test/ --recursive --reporter nyan",
+    "dev": "serverless offline start --stage dev",
+    "seeds": "node src/db/seeds/index.js",
+    "scrape-posts:local": "serverless invoke local --function scrapePosts --stage dev"
   },
   "author": "",
   "license": "ISC",

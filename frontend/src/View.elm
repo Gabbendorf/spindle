@@ -6,6 +6,7 @@ import Dict exposing (Dict)
 import Html exposing (..)
 import Html.Attributes exposing (class, href, target)
 import Html.Events exposing (onClick)
+import Icons.Chevron exposing (chevron)
 import Types exposing (..)
 
 
@@ -15,6 +16,7 @@ view model =
         [ h1 [ class "serif logo" ] [ text "Spindle" ]
         , div [ class "page-container" ]
             [ renderNavBar model
+            , renderAllAuthorStats model
             , renderFilteredBlogStream model
             ]
         ]
@@ -83,7 +85,7 @@ renderBlogPost colors selectedBlogPost ( author, { title, date, content } as blo
             getAuthorColor colors author
     in
     div [ class "blog-post" ]
-        [ div [ class "blog-post--title-container" ]
+        [ div [ class "blog-post--title-container post-padding" ]
             [ h3 [ class "blog-post--title sans-serif" ] [ text title ]
             , p
                 [ class ("blog-post--author serif " ++ color)
@@ -91,21 +93,21 @@ renderBlogPost colors selectedBlogPost ( author, { title, date, content } as blo
                 ]
                 [ text author ]
             ]
-        , p [ class "blog-post--date sans-serif" ] [ text (renderDate date) ]
-        , renderBlogPostContent contentVisible blogPost
-        , renderContentVisibilityButton contentVisible blogPost
+        , p [ class "blog-post--date sans-serif post-padding" ] [ text (renderDate date) ]
+        , renderBlogPostContent color contentVisible blogPost
+        , renderContentVisibilityButton color contentVisible blogPost
         ]
 
 
-renderBlogPostContent : Bool -> BlogPost -> Html Msg
-renderBlogPostContent contentVisible blogPost =
+renderBlogPostContent : String -> Bool -> BlogPost -> Html Msg
+renderBlogPostContent authorColor contentVisible blogPost =
     if contentVisible then
         div [ class "blog-post-content" ]
             [ p [ class "serif blog-post-content--text" ] [ text blogPost.content ]
             , a
                 [ href blogPost.link
                 , target "_blank"
-                , class "blog-post-content-link sans-serif"
+                , class <| "blog-post-content--link sans-serif " ++ authorColor
                 ]
                 [ text "SEE POST" ]
             ]
@@ -113,20 +115,24 @@ renderBlogPostContent contentVisible blogPost =
         span [] []
 
 
-renderContentVisibilityButton : Bool -> BlogPost -> Html Msg
-renderContentVisibilityButton contentVisible blogPost =
+renderContentVisibilityButton : String -> Bool -> BlogPost -> Html Msg
+renderContentVisibilityButton color contentVisible blogPost =
     if contentVisible then
-        button
-            [ class "blog-post-content--visibility-button"
+        div
+            [ class "blog-post-content--visibility-container"
             , onClick ClearSelectedBlogPost
             ]
-            [ text "hide content" ]
+            [ div [ class "blog-post-content--visibility-button inverted" ]
+                [ chevron color ]
+            ]
     else
-        button
-            [ class "blog-post-content--visibility-button"
+        div
+            [ class "blog-post-content--visibility-container"
             , onClick (SelectBlogPost blogPost)
             ]
-            [ text "show content" ]
+            [ div [ class "blog-post-content--visibility-button" ]
+                [ chevron color ]
+            ]
 
 
 renderDate : Date -> String
@@ -135,6 +141,45 @@ renderDate date =
         [ toString (Date.day date)
         , toString (Date.month date)
         , toString (Date.year date)
+        ]
+
+
+
+-- Stats page
+
+
+renderAllAuthorStats : Model -> Html Msg
+renderAllAuthorStats model =
+    table [ class "stats sans-serif" ]
+        [ renderAuthorStatsHeader
+        , renderTableBody model
+        ]
+
+
+renderTableBody : Model -> Html Msg
+renderTableBody model =
+    tbody [] <| List.map (renderAuthorStats model.today) model.authors
+
+
+renderAuthorStatsHeader : Html Msg
+renderAuthorStatsHeader =
+    thead []
+        [ th [] [ text "Author" ]
+        , th [] [ text "7 Days" ]
+        , th [] [ text "30 Days" ]
+        ]
+
+
+renderAuthorStats : Date -> Author -> Html Msg
+renderAuthorStats today author =
+    let
+        ( day7, day30 ) =
+            statsForAuthor today author
+    in
+    tr []
+        [ td [] [ text author.name ]
+        , td [] [ text <| toString day7 ]
+        , td [] [ text <| toString day30 ]
         ]
 
 
