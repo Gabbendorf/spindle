@@ -1,5 +1,7 @@
 # Spindle
 
+http://spindle-frontend.s3-website.eu-west-2.amazonaws.com/
+
 An app to collect apprentices' blog posts in one place.
 
 Spindle is built using:
