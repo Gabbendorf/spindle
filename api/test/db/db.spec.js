@@ -65,7 +65,22 @@ describe('db', () => {
       expect(posts[1].title).to.eq(post2.title);
     });
 
-    it('does not insert duplicate posts', async () => {
+    it('escapes strings correctly', async () => {
+      const unescapedPost = {
+        author: 'gabi',
+        title: "What's new for me in Elixir",
+        content: "Things I've learnt",
+        date: 'Fri, 29 Jun 2018 11:21:29 GMT',
+        link: 'posts.com'
+      }
+
+      await db.addPosts([unescapedPost])
+
+      const posts = await executeQuery('SELECT * FROM posts;')
+      expect(posts[0].title).to.eq("What's new for me in Elixir")
+    })
+
+    it('doesnt insert a duplicate post', async () => {
       await db.addPosts([post1, post1]);
 
       const posts = await executeQuery('SELECT * FROM posts;');

@@ -1,4 +1,5 @@
 const {Client} = require('pg');
+const escape = require('pg-escape')
 
 module.exports = class Db {
   constructor(connectionConfig) {
@@ -6,8 +7,8 @@ module.exports = class Db {
   }
 
   async getAuthors() {
-    const getAuthorsQuery = 'SELECT * FROM authors;';
-    const records = await this._executeQuery(getAuthorsQuery);
+    const query = 'SELECT * FROM authors;';
+    const records = await this._executeQuery(query);
     return records.map(record => {
       return {
         author: record.first_name,
@@ -51,14 +52,9 @@ module.exports = class Db {
   _insertPostQuery({author, title, link, content, date}) {
     const getAuthorId = `SELECT id FROM authors WHERE first_name = '${author}'`;
     const fields = `(author_id, title, link, content, date)`;
-    const values = `(
-      (${getAuthorId}),
-      '${title}',
-      '${link}',
-      '${content}',
-      '${date}'
-    )`;
-    return `INSERT INTO posts ${fields} VALUES ${values} ON CONFLICT DO NOTHING;`;
+    const values = `((${getAuthorId}), %L, %L, %L, %L)`;
+    const query = `INSERT INTO posts ${fields} VALUES ${values} ON CONFLICT DO NOTHING;`;
+    return escape(query, title, link, content, date);
   }
 
   async _executeQuery(query) {
